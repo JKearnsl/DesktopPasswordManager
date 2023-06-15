@@ -9,3 +9,5 @@ class ResourcesController:
 
         self.view.show()
 
+    def resource_item_clicked(self, resource_id: int):
+        print(f"pressed: {resource_id}")
