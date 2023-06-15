@@ -14,7 +14,7 @@ def main():
     app = QApplication(sys.argv)
     app.setStyle(QStyleFactory.create("Fusion"))
 
-    QtCore.QDir.addSearchPath('icons', 'assets/window/icons')
+    QtCore.QDir.addSearchPath('assets', 'assets/')
 
     login_model = LoginModel()
     if not login_model.is_auth():
