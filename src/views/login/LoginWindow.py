@@ -108,6 +108,7 @@ class Ui_LoginWindow(object):
         # Ответ сервера
         self.authResponseLabel = QtWidgets.QLabel(LoginWindow)
         self.authResponseLabel.setObjectName("authResponseLabel")
+        self.authResponseLabel.setWordWrap(True)
         self.authResponseLabel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.authResponseLabel.setStyleSheet("""
             QLabel {
