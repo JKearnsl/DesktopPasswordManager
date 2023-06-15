@@ -1,3 +1,5 @@
+from src.controllers.main import MainController
+from src.models.main import MainModel
 from src.views.login import LoginView
 
 
@@ -15,7 +17,9 @@ class LoginController:
     def signin(self):
         login = self.view.ui.login_line_edit.text()
         password = self.view.ui.password_line_edit.text()
-        self.model.signin(login, password)
+        if self.model.signin(login, password):
+            self.view.hide()
+            main_controller = MainController(MainModel())
 
     def signup(self):
         login = self.view.ui.login_line_edit.text()

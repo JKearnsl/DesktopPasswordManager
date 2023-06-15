@@ -28,8 +28,8 @@ class LoginModel:
         return self._errors
 
     def is_auth(self) -> bool:
-        if resp := self._api_service.current_user().get("error"):
-            print(resp)
+        if self._api_service.current_user().get("error"):
+            self._api_service.session.cookies.clear()
             return False
         return True
 
@@ -63,13 +63,13 @@ class LoginModel:
             else:
                 self._errors.append("тип 2")
             self.notify_observers()
-            return
+            return False
 
         # todo: в main приложении
         with open("session", "wb") as file:
             pickle.dump({key: value for key, value in self._api_service.session.cookies.items()}, file)
 
-        # todo: переход
+        return True
 
     def signup(self, username: str, password: str, repeat_password: str):
         if password != repeat_password:
