@@ -1,4 +1,3 @@
-
 from PyQt6 import QtWidgets, QtCore
 from PyQt6.QtCore import Qt
 
@@ -30,17 +29,17 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
     def model_changed(self):
         for i in range(3):
-            item = QtWidgets.QListWidgetItem(self.ui.resource_panel)
+            item = QtWidgets.QListWidgetItem(self.ui.resource_list)
             item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             item_widget = ResourceItemWidget(i, f"title #{i}")
             item_widget.clicked.connect(self.controller.resource_item_clicked)
-            item.setSizeHint(item_widget.sizeHint())
-            self.ui.resource_panel.addItem(item)
-            self.ui.resource_panel.setItemWidget(item, item_widget)
+            item.setSizeHint(QtCore.QSize(0, 50))
+            print(item_widget.sizeHint())
+            self.ui.resource_list.addItem(item)
+            self.ui.resource_list.setItemWidget(item, item_widget)
 
 
 class ResourceItemWidget(QtWidgets.QWidget):
-
     clicked = QtCore.pyqtSignal(int)
 
     def __init__(self, id: int, title: str, *args, **kwargs):
@@ -50,11 +49,29 @@ class ResourceItemWidget(QtWidgets.QWidget):
         self.title = QtWidgets.QLabel(title)
 
         layout = QtWidgets.QHBoxLayout()
-        layout.setContentsMargins(5, 5, 5, 5)
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.title)
 
         self.setLayout(layout)
         self.mouseReleaseEvent = self.signal_change
+
+        self.setStyleSheet("""
+            QWidget {
+                background-color: white;
+            }
+            
+            QWidget:hover {
+                background-color: #f1f1f1;
+            }
+        """)
+        self.title.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                padding: 10px;
+            }
+        """)
+        self.title.setWordWrap(False)
+        self.setFixedHeight(50)
 
     def signal_change(self, *args, **kwargs):
         self.clicked.emit(self._id)
