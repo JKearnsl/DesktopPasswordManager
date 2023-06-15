@@ -16,6 +16,7 @@ class Ui_MainWindow(object):
         self.central_layout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.central_layout.setObjectName("central_layout")
         self.central_layout.setContentsMargins(0, 0, 0, 0)
+        self.central_layout.setProperty("spacing", 0)
         MainWindow.setCentralWidget(self.centralwidget)
 
         # Панель меню
