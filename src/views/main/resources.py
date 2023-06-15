@@ -18,6 +18,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.ui.setupUi(self)
 
         parent.ui.page_widget.addWidget(self)
+        parent.ui.page_widget.setCurrentWidget(self)
 
         # Регистрация представлений
         self.model.add_observer(self)
