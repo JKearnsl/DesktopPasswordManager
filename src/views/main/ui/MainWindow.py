@@ -6,28 +6,6 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         MainWindow.setStyleSheet("""
-            QMenuBar {
-                background-color: transparent;
-            }
-            
-            QMenuBar::item {
-            color : black;
-            margin-top:4px;
-            spacing: 3px;
-            padding: 1px 10px;
-            background: transparent;
-            border-radius: 4px;
-            }
-            
-            QMenuBar::item:selected {
-                color: rgb(247, 247, 247);
-            background: #a8a8a8;
-            }
-            
-            QMenuBar::item:pressed {
-            background: #888888;
-            }
-            
             QMainWindow {
                 background-color: rgb(220, 226, 218);
                 border: none;
@@ -44,53 +22,100 @@ class Ui_MainWindow(object):
         self.menu_panel = QtWidgets.QWidget()
         self.menu_panel.setObjectName("menu_panel")
         self.menu_panel.setContentsMargins(0, 0, 0, 0)
-        self.menu_panel.setFixedWidth(64)
+        self.menu_panel.setFixedWidth(96)
         self.menu_panel.setStyleSheet("""
             QWidget {
-                background-color: #202e3b;
+                background-color: #293a4c;
                 border: none;
             }
         """)
         self.mp_layout = QtWidgets.QVBoxLayout(self.menu_panel)
         self.mp_layout.setObjectName("mp_layout")
         self.mp_layout.setContentsMargins(0, 0, 0, 0)
-
-        self.resources_menu_button = QtWidgets.QPushButton(self.menu_panel)
-        self.resources_menu_button.setObjectName("resources_menu_button")
-        self.resources_menu_button.setText("R")
-        self.resources_menu_button.setStyleSheet("""
-            QPushButton {
-                background-color: gray;
-                border: none;
-                color: rgb(0, 0, 0);
-            };
-        """)
-        self.mp_layout.addWidget(self.resources_menu_button)
+        self.mp_layout.setProperty("spacing", 0)
 
         self.profile_menu_button = QtWidgets.QPushButton(self.menu_panel)
         self.profile_menu_button.setObjectName("profile_menu_button")
-        self.profile_menu_button.setText("P")
+        self.profile_menu_button.setIcon(QtGui.QIcon("assets:menu_icon/profile.png"))
+        self.profile_menu_button.setIconSize(QtCore.QSize(64, 64))
+        self.profile_menu_button.setCheckable(True)
         self.profile_menu_button.setStyleSheet("""
             QPushButton {
-                background-color: rgb(220, 226, 218);
+                padding: 5px;
                 border: none;
-                color: rgb(0, 0, 0);
-            };
+            }
+            
+            QPushButton:hover {
+                background-color: #304459;
+            }
+            
+            QPushButton:pressed {
+                background-color: #253545;
+            }
+            
+            QPushButton:checked {
+                background-color: black;
+            }
+            
         """)
         self.mp_layout.addWidget(self.profile_menu_button)
 
+        self.resources_menu_button = QtWidgets.QPushButton(self.menu_panel)
+        self.resources_menu_button.setObjectName("resources_menu_button")
+        self.resources_menu_button.setIcon(QtGui.QIcon("assets:menu_icon/resources.png"))
+        self.resources_menu_button.setIconSize(QtCore.QSize(64, 64))
+        self.resources_menu_button.setCheckable(True)
+        self.resources_menu_button.setStyleSheet("""
+            QPushButton {
+                padding: 5px;
+                border: none;
+            }
+            
+            QPushButton:hover {
+                background-color: #304459;
+            }
+            
+            QPushButton:pressed {
+                background-color: #253545;
+            }
+            
+            QPushButton:checked {
+                background-color: black;
+            }
+        """)
+        self.mp_layout.addWidget(self.resources_menu_button)
+        self.mp_layout.addItem(
+            QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        )
+
         self.settings_menu_button = QtWidgets.QPushButton(self.menu_panel)
         self.settings_menu_button.setObjectName("settings_menu_button")
-        self.settings_menu_button.setText("S")
+        self.settings_menu_button.setIconSize(QtCore.QSize(64, 64))
+        self.settings_menu_button.setIcon(QtGui.QIcon("assets:menu_icon/settings.png"))
+        self.settings_menu_button.setCheckable(True)
         self.settings_menu_button.setStyleSheet("""
             QPushButton {
-                background-color: rgb(220, 226, 218);
+                padding: 5px;
                 border: none;
-                color: rgb(0, 0, 0);
-            };
+            }
+            
+            QPushButton:hover {
+                background-color: #304459;
+            }
+            
+            QPushButton:pressed {
+                background-color: #253545;
+            }
+            
+            QPushButton:checked {
+                background-color: black;
+            }
         """)
         self.mp_layout.addWidget(self.settings_menu_button)
         self.central_layout.addWidget(self.menu_panel)
+        self.mp_layout.addItem(
+            QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
 
         # Поле страницы
         self.page_widget = QtWidgets.QStackedWidget()
@@ -104,5 +129,5 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "CompMath"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Password Manager"))
 
