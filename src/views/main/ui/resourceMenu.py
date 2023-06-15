@@ -7,6 +7,7 @@ class Ui_resourcesMenu(object):
         self.central_layout = QtWidgets.QHBoxLayout(settingsMenu)
         self.central_layout.setContentsMargins(0, 0, 0, 0)
         self.central_layout.setObjectName("central_layout")
+        self.central_layout.setProperty("spacing", 0)
 
         # Разделитель
         self.separator = QtWidgets.QSplitter(QtCore.Qt.Orientation.Horizontal)
@@ -20,7 +21,6 @@ class Ui_resourcesMenu(object):
         self.resource_panel.setStyleSheet("""
             QListWidget {
                 background-color: white;
-                border: 1px solid black;
             }
         """)
         self.resource_panel.setMinimumWidth(100)
@@ -36,7 +36,7 @@ class Ui_resourcesMenu(object):
         self.datum_panel.setContentsMargins(0, 0, 0, 0)
         self.datum_panel.setStyleSheet("""
             QWidget {
-                border: 1px solid black;
+                
             }
         """)
         self.datum_panel.setMinimumWidth(100)
