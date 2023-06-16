@@ -106,6 +106,10 @@ class Ui_resourcesMenu(object):
                 border-top: 1px solid #d1d1d1;
                 font-size: 16px;
             }
+            
+            QListWidget:item:selected {
+                color: white;
+            }
         """)
 
         self.rp_layout.addWidget(self.resource_list)

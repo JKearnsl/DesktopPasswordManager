@@ -1,5 +1,6 @@
-from PyQt6 import QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QGraphicsDropShadowEffect
 
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
@@ -24,25 +25,87 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.model.add_observer(self)
 
         # События
+        self.ui.add_resource_button.clicked.connect(self.show_add_resource_modal)
 
         self.model_changed()
 
     def model_changed(self):
-        for i in range(3):
+        for el in self.model.loaded_resources:
             item = QtWidgets.QListWidgetItem(self.ui.resource_list)
             item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-            item_widget = ResourceItemWidget(i, f"title #{i}")
+            item_widget = ResourceItemWidget(el["id"], title=el["title"])
             item_widget.clicked.connect(self.controller.resource_item_clicked)
             item.setSizeHint(QtCore.QSize(0, 50))
-            print(item_widget.sizeHint())
             self.ui.resource_list.addItem(item)
             self.ui.resource_list.setItemWidget(item, item_widget)
 
+    def show_add_resource_modal(self):
+        self.ui.add_resource_modal = QtWidgets.QDialog(self)
+        self.ui.add_resource_modal.setModal(True)
+        self.ui.add_resource_modal.setMinimumSize(QtCore.QSize(400, 200))
+        self.ui.add_resource_modal.setWindowTitle("Добавить ресурс")
+        self.ui.add_resource_modal.setStyleSheet("""
+            QDialog {
+                background-color: white;
+            }
+        """)
+        layout = QtWidgets.QFormLayout(self.ui.add_resource_modal)
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setProperty("spacing", 30)
+
+        text_1 = QtWidgets.QLabel("Title:")
+        text_1.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                font-weight: bold;
+            }
+        """)
+
+        self.ui.new_resource_title = QtWidgets.QLineEdit()
+        self.ui.new_resource_title.setObjectName("new_resource_title")
+        self.ui.new_resource_title.setMaxLength(128)
+        self.ui.new_resource_title.setStyleSheet("""
+            QLineEdit {
+                font-size: 16px;
+                font-weight: bold;
+                border: 2px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+            }
+        """)
+        layout.addRow(text_1, self.ui.new_resource_title)
+
+        # Кнопка
+        button = QtWidgets.QPushButton("Добавить")
+        button.setStyleSheet("""
+            QPushButton {
+                background-color: white;
+                font-size: 16px;
+                font-weight: bold;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
+            }
+            
+            QPushButton:hover {
+                background-color: #f1f1f1;
+            }
+        """)
+        button.setGraphicsEffect(QGraphicsDropShadowEffect(
+            blurRadius=10,
+            color=QtGui.QColor("#d1d1d1"),
+            offset=QtCore.QPointF(0, 0)
+        ))
+        button.clicked.connect(self.controller.add_resource_clicked)
+        layout.addRow(button)
+
+        self.ui.add_resource_modal.show()
+
 
 class ResourceItemWidget(QtWidgets.QWidget):
-    clicked = QtCore.pyqtSignal(int)
+    clicked = QtCore.pyqtSignal(str)
 
-    def __init__(self, id: int, title: str, *args, **kwargs):
+    def __init__(self, id: str, title: str, *args, **kwargs):
         super().__init__()
 
         self._id = id
