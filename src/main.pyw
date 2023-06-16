@@ -20,7 +20,7 @@ def main():
     if not login_model.is_auth():
         controller = LoginController(login_model)
     else:
-        main_model = MainModel()
+        main_model = MainModel(api=login_model.api_service)
         controller = MainController(main_model)
 
     app.exec()

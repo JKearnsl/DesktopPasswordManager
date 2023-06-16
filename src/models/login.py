@@ -27,6 +27,10 @@ class LoginModel:
     def errors(self):
         return self._errors
 
+    @property
+    def api_service(self) -> APIServiceV1:
+        return self._api_service
+
     def is_auth(self) -> bool:
         if self._api_service.current_user().get("error"):
             self._api_service.session.cookies.clear()
@@ -36,8 +40,14 @@ class LoginModel:
     def get_http_session(self) -> httpx.Client:
         session = httpx.Client()
         try:
+            cookies = httpx.Cookies()
             with open("session", "rb") as file:
-                session.cookies.update(pickle.load(file))
+                jar_cookies = pickle.load(file)
+            for domain, pc in jar_cookies.items():
+                for path, c in pc.items():
+                    for k, v in c.items():
+                        cookies.set(k, v.value, domain=domain, path=path)
+            session.cookies = cookies
         except (FileNotFoundError, EOFError):
             logging.info(" Файл сессии не найден")
         return session
@@ -65,10 +75,9 @@ class LoginModel:
             self.notify_observers()
             return False
 
-        # todo: в main приложении
         with open("session", "wb") as file:
-            pickle.dump({key: value for key, value in self._api_service.session.cookies.items()}, file)
-
+            # Issues: https://github.com/encode/httpx/issues/895#issuecomment-970689380
+            pickle.dump(self._api_service.session.cookies.jar.__getattribute__("_cookies"), file)
         return True
 
     def signup(self, username: str, password: str, repeat_password: str):

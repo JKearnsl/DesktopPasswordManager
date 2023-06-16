@@ -19,7 +19,7 @@ class LoginController:
         password = self.view.ui.password_line_edit.text()
         if self.model.signin(login, password):
             self.view.hide()
-            main_controller = MainController(MainModel())
+            main_controller = MainController(MainModel(self.model.api_service))
 
     def signup(self):
         login = self.view.ui.login_line_edit.text()
