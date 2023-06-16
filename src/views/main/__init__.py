@@ -23,6 +23,7 @@ class MainView(QtWidgets.QMainWindow, DObserver, metaclass=TSMeta):
         self.ui.profile_menu_button.clicked.connect(self.controller.show_profile)
         self.ui.resources_menu_button.clicked.connect(self.controller.show_resources)
         self.ui.settings_menu_button.clicked.connect(self.controller.show_settings)
+        self.closeEvent = self.controller.close
 
     def model_changed(self):
         pass

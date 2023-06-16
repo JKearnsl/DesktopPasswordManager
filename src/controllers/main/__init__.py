@@ -72,3 +72,7 @@ class MainController:
                     self.view.ui.page_widget.setCurrentWidget(widget)
                     return
         controller = SettingsController(self.model, self.view)
+
+    def close(self, event):
+        self.model.save_session()
+        event.accept()
