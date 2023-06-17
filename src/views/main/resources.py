@@ -4,13 +4,13 @@ from PyQt6.QtWidgets import QGraphicsDropShadowEffect
 
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
-from src.models.main import MainModel
+from src.models.resource import ResourceModel
 from src.views.main.ui.resourceMenu import Ui_resourcesMenu
 
 
 class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
-    def __init__(self, controller, model: MainModel, parent):
+    def __init__(self, controller, model: ResourceModel, parent):
         super(QtWidgets.QWidget, self).__init__(parent)
         self.controller = controller
         self.model = model
@@ -26,11 +26,21 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
         # События
         self.ui.add_resource_button.clicked.connect(self.show_add_resource_modal)
-
-        self.model_changed()
+        self.ui.search_line.textChanged.connect(self.controller.search_resource)
+        self.ui.resource_list.verticalScrollBar().valueChanged.connect(self.controller.resource_scroll_changed)
 
     def model_changed(self):
-        for el in self.model.loaded_resources:
+        if self.ui.resource_list.count() > len(self.model.loaded_resources):
+            for i in range(self.ui.resource_list.count() - len(self.model.loaded_resources)):
+                self.ui.resource_list.takeItem(self.ui.resource_list.count() - 1)
+
+        for i, el in enumerate(self.model.loaded_resources):
+            if item := self.ui.resource_list.item(i):
+                item_widget: ResourceItemWidget = self.ui.resource_list.itemWidget(item)
+                item_widget.id = el["id"]
+                item_widget.title.setText(el["title"])
+                continue
+
             item = QtWidgets.QListWidgetItem(self.ui.resource_list)
             item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             item_widget = ResourceItemWidget(el["id"], title=el["title"])
@@ -108,7 +118,7 @@ class ResourceItemWidget(QtWidgets.QWidget):
     def __init__(self, id: str, title: str, *args, **kwargs):
         super().__init__()
 
-        self._id = id
+        self.id = id
         self.title = QtWidgets.QLabel(title)
 
         layout = QtWidgets.QHBoxLayout()
@@ -137,4 +147,4 @@ class ResourceItemWidget(QtWidgets.QWidget):
         self.setFixedHeight(50)
 
     def signal_change(self, *args, **kwargs):
-        self.clicked.emit(self._id)
+        self.clicked.emit(self.id)
