@@ -202,7 +202,7 @@ class Ui_resourcesMenu(object):
         self.dp_stub_layout.addItem(
             QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         )
-        # self.dp_layout.addWidget(self.dp_stub)
+        self.dp_layout.addWidget(self.dp_stub)
 
         # Шаблон данных
         self.datum = QtWidgets.QWidget()
@@ -249,6 +249,13 @@ class Ui_resourcesMenu(object):
             QListWidget {
                 background-color: transparent;
                 font-size: 16px;
+                margin: 10px;
+            }
+            
+            QListWidget:item {
+                border-bottom: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: white;
             }
             
             QListWidget:item:selected {
@@ -307,7 +314,6 @@ class Ui_resourcesMenu(object):
         self.datum_footer_layout.addItem(
             QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         )
-        self.dp_layout.addWidget(self.datum)
 
         self.separator.addWidget(self.datum_panel)
         self.central_layout.addWidget(self.separator)
