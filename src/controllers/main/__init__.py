@@ -1,6 +1,8 @@
 from src.controllers.main.settings import SettingsController
 from src.controllers.main.resources import ResourcesController
 from src.controllers.main.profile import ProfileController
+from src.models.profile import ProfileModel
+from src.models.resource import ResourceModel
 
 from src.views.main.settings import SettingsView
 from src.views.main.resources import ResourcesView
@@ -36,7 +38,7 @@ class MainController:
                 if isinstance(widget, ProfileView):
                     self.view.ui.page_widget.setCurrentWidget(widget)
                     return
-        controller = ProfileController(self.model, self.view)
+        controller = ProfileController(ProfileModel(self.model.api_service), self.view)
 
     def show_resources(self):
         self.view.ui.resources_menu_button.setChecked(True)
@@ -54,7 +56,7 @@ class MainController:
                 if isinstance(widget, ResourcesView):
                     self.view.ui.page_widget.setCurrentWidget(widget)
                     return
-        controller = ResourcesController(self.model, self.view)
+        controller = ResourcesController(ResourceModel(self.model.api_service), self.view)
 
     def show_settings(self):
         self.view.ui.settings_menu_button.setChecked(True)
