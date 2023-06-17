@@ -14,6 +14,13 @@ class Ui_resourcesMenu(object):
         self.separator = QtWidgets.QSplitter(QtCore.Qt.Orientation.Horizontal)
         self.separator.setObjectName("separator")
         self.separator.setContentsMargins(0, 0, 0, 0)
+        self.separator.setProperty("spacing", 0)
+        self.separator.setStyleSheet("""
+            QSplitter::handle:vertical {
+                width: 0px;
+            }
+        
+        """)
 
         # Панель ресурсов
         self.resource_panel = QtWidgets.QWidget()
@@ -41,9 +48,11 @@ class Ui_resourcesMenu(object):
         self.rp_header = QtWidgets.QWidget()
         self.rp_header.setObjectName("rp_header")
         self.rp_header.setContentsMargins(0, 0, 0, 0)
+        self.rp_header.setFixedHeight(60)
         self.rp_header.setStyleSheet("""
             QWidget {
                 background-color: white;
+                border-right: 1px solid #d1d1d1;
             }
         """)
         self.rp_header_layout = QtWidgets.QHBoxLayout(self.rp_header)
@@ -72,6 +81,7 @@ class Ui_resourcesMenu(object):
             QPushButton {
                 background-color: white;
                 border-radius: 15px;
+                border: 1px solid #d1d1d1;
             }
             
             QPushButton:hover {
@@ -101,8 +111,10 @@ class Ui_resourcesMenu(object):
         # Список элементов ресурса
         self.resource_list = QtWidgets.QListWidget()
         self.resource_list.setObjectName("resource_list")
+        self.resource_list.verticalScrollBar().setSingleStep(5)
         self.resource_list.setStyleSheet("""
             QListWidget {
+                border-right: 1px solid #d1d1d1;
                 border-top: 1px solid #d1d1d1;
                 font-size: 16px;
             }
@@ -110,6 +122,33 @@ class Ui_resourcesMenu(object):
             QListWidget:item:selected {
                 color: white;
             }
+            
+            QScrollBar:vertical { width: 5px; }
+            
+
+            QScrollBar::add-line:vertical {
+                  border: none;
+                  background: none;
+            }
+            
+            QScrollBar::sub-line:vertical {
+                  border: none;
+                  background: none;
+            }
+            
+            QScrollBar::handle:vertical {
+                    background: #d1d1d1;
+                    border-radius: 2px;
+            }
+            
+            QScrollBar::handle:vertical:hover {
+                    background: #c1c1c1;
+            }
+            
+            QScrollBar::handle:vertical:pressed {
+                    background: #b1b1b1;
+            }
+
         """)
 
         self.rp_layout.addWidget(self.resource_list)
@@ -133,6 +172,7 @@ class Ui_resourcesMenu(object):
         self.dp_layout = QtWidgets.QVBoxLayout(self.datum_panel)
         self.dp_layout.setObjectName("dp_layout")
         self.dp_layout.setContentsMargins(0, 0, 0, 0)
+        self.dp_layout.setProperty("spacing", 0)
         self.datum_panel.setLayout(self.dp_layout)
 
         self.dp_stub = QtWidgets.QWidget()
@@ -162,7 +202,112 @@ class Ui_resourcesMenu(object):
         self.dp_stub_layout.addItem(
             QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         )
-        self.dp_layout.addWidget(self.dp_stub)
+        # self.dp_layout.addWidget(self.dp_stub)
+
+        # Шаблон данных
+        self.datum = QtWidgets.QWidget()
+        self.datum.setObjectName("datum")
+        self.datum_layout = QtWidgets.QVBoxLayout(self.datum)
+        self.datum_layout.setObjectName("datum_layout")
+        self.datum_layout.setContentsMargins(0, 0, 0, 0)
+        self.datum_layout.setProperty("spacing", 0)
+
+        # header
+        self.datum_header = QtWidgets.QWidget()
+        self.datum_header.setObjectName("datum_header")
+        self.datum_header.setStyleSheet("""
+            QWidget {
+                background-color: white;
+            }
+        """)
+        self.datum_header.setFixedHeight(60)
+        self.datum_header_layout = QtWidgets.QHBoxLayout(self.datum_header)
+        self.datum_header_layout.setObjectName("datum_header_layout")
+        self.datum_header_layout.setContentsMargins(0, 0, 0, 0)
+        self.datum_header_layout.addItem(
+            QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
+        self.datum_header_label = QtWidgets.QLabel()
+        self.datum_header_label.setObjectName("datum_header_label")
+        self.datum_header_label.setStyleSheet("""
+            QLabel {
+                font-size: 18px;
+                font-weight: bold;
+                color: black;
+
+            }
+        """)
+        self.datum_header_label.setText("Title")
+        self.datum_header_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.datum_header_layout.addWidget(self.datum_header_label)
+        self.datum_layout.addWidget(self.datum_header)
+
+        # list
+        self.datum_list = QtWidgets.QListWidget()
+        self.datum_list.setObjectName("datum_list")
+        self.datum_list.setStyleSheet("""
+            QListWidget {
+                background-color: transparent;
+                font-size: 16px;
+            }
+            
+            QListWidget:item:selected {
+                color: white;
+            }
+        """)
+
+        self.datum_layout.addWidget(self.datum_list)
+
+        # footer
+        self.datum_footer = QtWidgets.QWidget()
+        self.datum_footer.setObjectName("datum_footer")
+        self.datum_footer.setStyleSheet("""
+            QWidget {
+                background-color: white;
+                border-top: 1px solid #d1d1d1;
+            }
+        """)
+        self.datum_footer.setFixedHeight(50)
+        self.datum_footer_layout = QtWidgets.QHBoxLayout(self.datum_footer)
+        self.datum_footer_layout.setObjectName("datum_footer_layout")
+        self.datum_footer_layout.setContentsMargins(0, 0, 0, 0)
+        self.datum_footer_layout.addItem(
+            QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
+        self.datum_add_button = QtWidgets.QPushButton()
+        self.datum_add_button.setObjectName("datum_add_button")
+        self.datum_add_button.setStyleSheet("""
+            QPushButton {
+                background-color: white;
+                font-size: 16px;
+                font-weight: bold;
+                color: black;
+                border-radius: 4px;
+                border: 1px solid #d1d1d1;
+            }
+            
+            QPushButton:hover {
+                background-color: #f1f1f1;
+            }
+            
+            QPushButton:pressed {
+                background-color: #e1e1e1;
+            }
+        """)
+        self.datum_add_button.setText("+")
+        self.datum_add_button.setMinimumWidth(100)
+        self.datum_add_button.setMaximumWidth(200)
+        self.datum_add_button.setGraphicsEffect(QGraphicsDropShadowEffect(
+            blurRadius=10,
+            color=QtGui.QColor("#d1d1d1"),
+            offset=QtCore.QPointF(0, 0)
+        ))
+        self.datum_footer_layout.addWidget(self.datum_add_button)
+        self.datum_layout.addWidget(self.datum_footer)
+        self.datum_footer_layout.addItem(
+            QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
+        self.dp_layout.addWidget(self.datum)
 
         self.separator.addWidget(self.datum_panel)
         self.central_layout.addWidget(self.separator)
