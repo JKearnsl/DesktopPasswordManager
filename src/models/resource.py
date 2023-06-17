@@ -1,21 +1,17 @@
-import pickle
-
 from src.api_service import APIServiceV1
 
 
-class MainModel:
+class ResourceModel:
 
     def __init__(self, api: APIServiceV1):
         self._api_service = api
         self._loaded_resources = []
         self._errors = []
 
+        self.load_resources()
+
         # список наблюдателей
         self._mObservers = []
-
-    @property
-    def api_service(self):
-        return self._api_service
 
     @property
     def loaded_resources(self) -> list[dict[str]]:
@@ -25,7 +21,7 @@ class MainModel:
     def errors(self):
         return self._errors
 
-    def load_resources(self, page: int, query: str = None, order_by: str = "created_at"):
+    def load_resources(self, page: int = 1, query: str = None, order_by: str = "created_at"):
         response = self._api_service.resource_list(page, query=query, order_by=order_by)
         if response.get("error"):
             if response["error"]["type"] == 1:
@@ -33,7 +29,7 @@ class MainModel:
             else:
                 print("error2", response["error"]["content"])
 
-        self._loaded_resources = response["message"]["content"]
+        self._loaded_resources = response["message"]
 
     def add_resource(self, title: str):
         response = self._api_service.resource_new(title)
@@ -43,11 +39,6 @@ class MainModel:
             else:
                 print("error2", response["error"]["content"])
         self.notify_observers()
-
-    def save_session(self):
-        with open("session", "wb") as file:
-            # Issues: https://github.com/encode/httpx/issues/895#issuecomment-970689380
-            pickle.dump(self._api_service.session.cookies.jar.__getattribute__("_cookies"), file)
 
     def add_observer(self, observer):
         self._mObservers.append(observer)
