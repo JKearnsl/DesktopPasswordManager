@@ -139,11 +139,12 @@ class APIServiceV1:
         except JSONDecodeError:
             return dict(error=dict(content="Неизвестная ошибка", type=1))
 
-    def password_list(self, page: int = 1, per_page: int = 10):
+    def password_list(self, resource_id: str, page: int = 1, per_page: int = 10):
         try:
             return self._session.get(
                 self._base_url + "password/list",
                 params=dict(
+                    resource_id=resource_id,
                     page=page,
                     per_page=per_page
                 )
@@ -153,9 +154,9 @@ class APIServiceV1:
         except JSONDecodeError:
             return dict(error=dict(content="Неизвестная ошибка", type=1))
 
-    def password_new(self, resource_id: int, username: str, password: str):
+    def password_new(self, resource_id: str, username: str, password: str):
         try:
-            return self._session.post(
+            result = self._session.post(
                 self._base_url + "password/new",
                 params=dict(
                     resource_id=resource_id,
@@ -164,7 +165,11 @@ class APIServiceV1:
                     username=username,
                     password=password
                 )
-            ).json()
+            )
+            if result.status_code == 201:
+                return dict(message="ok")
+            else:
+                return result.json()
         except (httpx.ConnectError, httpx.TimeoutException):
             return dict(error=dict(content="Ошибка соединения", type=1))
         except JSONDecodeError:
