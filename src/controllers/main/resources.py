@@ -10,8 +10,35 @@ class ResourcesController:
         self.view.show()
         self.load_resource_list()
 
-    def resource_item_clicked(self, resource_id: str):
-        print(f"pressed: {resource_id}")
+    def add_password_clicked(self):
+        resource_id = self.view.current_resource.id
+        username = self.view.ui.nd_username_line.text()
+        password = self.view.ui.nd_password_line.text()
+        self.model.add_datum(resource_id, username, password)
+        self.view.ui.nd_username_line.setText('')
+        self.view.ui.nd_password_line.setText('')
+        self.view.ui.add_password_modal.close()
+
+    def datum_item_clicked(self, data):
+        datum_id = data[0]
+        username = data[1].username.text()
+        self.view.show_password_modal(datum_id, username)
+
+    def show_password_clicked(self):
+        ...
+
+    def resource_item_clicked(self, data):
+        resource_id = data[0]
+        if self.view.current_resource:
+            self.view.current_resource.unset_as_current()
+
+        if self.view.current_resource == data[1]:
+            self.view.current_resource = None
+            self.model.notify_observers()
+            return
+        data[1].set_as_current()
+        self.view.current_resource = data[1]
+        self.model.load_resource(resource_id)
 
     def search_resource(self):
         query = self.view.ui.search_line.text()
