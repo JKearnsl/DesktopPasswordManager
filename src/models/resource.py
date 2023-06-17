@@ -8,8 +8,6 @@ class ResourceModel:
         self._loaded_resources = []
         self._errors = []
 
-        self.load_resources()
-
         # список наблюдателей
         self._mObservers = []
 
@@ -21,15 +19,27 @@ class ResourceModel:
     def errors(self):
         return self._errors
 
-    def load_resources(self, page: int = 1, query: str = None, order_by: str = "created_at"):
-        response = self._api_service.resource_list(page, query=query, order_by=order_by)
+    def search_resources(self, query: str = None):
+        self._loaded_resources.clear()
+        self.load_resources(1, per_page=100, query=query)
+
+    def load_resources(self, page: int = 1, per_page: int = 10, query: str = None, order_by: str = "created_at"):
+        response = self._api_service.resource_list(page, per_page=per_page, query=query, order_by=order_by)
         if response.get("error"):
             if response["error"]["type"] == 1:
                 self._errors.append(response["error"]["content"])
             else:
                 print("error2", response["error"]["content"])
+            return
 
-        self._loaded_resources = response["message"]
+        if not response["message"]:
+            return
+
+        for el in response["message"]:
+            if el not in self._loaded_resources:
+                self._loaded_resources.append(el)
+
+        self.notify_observers()
 
     def add_resource(self, title: str):
         response = self._api_service.resource_new(title)
@@ -38,7 +48,6 @@ class ResourceModel:
                 self._errors.append(response["error"]["content"])
             else:
                 print("error2", response["error"]["content"])
-        self.notify_observers()
 
     def add_observer(self, observer):
         self._mObservers.append(observer)
