@@ -1,11 +1,9 @@
-import time
-
 from PyQt6 import QtWidgets
 
 from src.models.enum.auth_state import AuthState
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
-from src.views.login.LoginWindow import Ui_LoginWindow
+from src.views.login.static_ui import Ui_LoginWindow
 from src.models.login import LoginModel
 
 

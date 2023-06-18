@@ -19,7 +19,7 @@ class Ui_resourcesMenu(object):
             QSplitter::handle:vertical {
                 width: 0px;
             }
-        
+
         """)
 
         # Панель ресурсов
@@ -83,15 +83,15 @@ class Ui_resourcesMenu(object):
                 border-radius: 15px;
                 border: 1px solid #d1d1d1;
             }
-            
+
             QPushButton:hover {
                 background-color: #f1f1f1;
             }
-            
+
             QPushButton:pressed {
                 background-color: #e1e1e1;
             }
-            
+
         """)
         self.add_resource_button.setIcon(QtGui.QIcon("assets:/menu_icon/plus.png"))
         self.add_resource_button.setIconSize(QtCore.QSize(20, 20))
@@ -118,33 +118,33 @@ class Ui_resourcesMenu(object):
                 border-top: 1px solid #d1d1d1;
                 font-size: 16px;
             }
-            
+
             QListWidget:item:selected {
                 color: white;
             }
-            
+
             QScrollBar:vertical { width: 5px; }
-            
+
 
             QScrollBar::add-line:vertical {
                   border: none;
                   background: none;
             }
-            
+
             QScrollBar::sub-line:vertical {
                   border: none;
                   background: none;
             }
-            
+
             QScrollBar::handle:vertical {
                     background: #d1d1d1;
                     border-radius: 2px;
             }
-            
+
             QScrollBar::handle:vertical:hover {
                     background: #c1c1c1;
             }
-            
+
             QScrollBar::handle:vertical:pressed {
                     background: #b1b1b1;
             }
@@ -161,7 +161,7 @@ class Ui_resourcesMenu(object):
         self.datum_panel.setContentsMargins(0, 0, 0, 0)
         self.datum_panel.setStyleSheet("""
             QWidget {
-                
+
             }
         """)
         dp_size_policy = QtWidgets.QSizePolicy(
@@ -251,13 +251,13 @@ class Ui_resourcesMenu(object):
                 font-size: 16px;
                 margin: 10px;
             }
-            
+
             QListWidget:item {
                 border-bottom: 1px solid #ccc;
                 border-radius: 5px;
                 background-color: white;
             }
-            
+
             QListWidget:item:selected {
                 color: white;
             }
@@ -292,11 +292,11 @@ class Ui_resourcesMenu(object):
                 border-radius: 4px;
                 border: 1px solid #d1d1d1;
             }
-            
+
             QPushButton:hover {
                 background-color: #f1f1f1;
             }
-            
+
             QPushButton:pressed {
                 background-color: #e1e1e1;
             }

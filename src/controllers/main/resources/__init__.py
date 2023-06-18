@@ -22,10 +22,14 @@ class ResourcesController:
     def datum_item_clicked(self, data):
         datum_id = data[0]
         username = data[1].username.text()
-        self.view.show_password_modal(datum_id, username)
+        password = data[1].enc_password
+        self.view.show_password_modal(datum_id, username, password)
 
     def show_password_clicked(self):
-        ...
+        end_password = self.view.showed_password
+        password = self.view.ui.sd_password_line.text()
+        dec_password = self.model.get_datum_password(end_password, password)
+        self.view.ui.nd_password_line.setText(dec_password)
 
     def resource_item_clicked(self, data):
         resource_id = data[0]

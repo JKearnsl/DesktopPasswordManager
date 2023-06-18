@@ -4,8 +4,8 @@ from PyQt6.QtWidgets import QGraphicsDropShadowEffect
 
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
-from src.models.resource import ResourceModel
-from src.views.main.ui.resourceMenu import Ui_resourcesMenu
+from src.models.main.resource import ResourceModel
+from src.views.main.resources.static_ui import Ui_resourcesMenu
 
 
 class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
@@ -62,7 +62,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
             for i, el in enumerate(self.model.data):
                 item = QtWidgets.QListWidgetItem(self.ui.datum_list)
                 item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-                item_widget = DatumItemWidget(el["id"], username=el["username"])
+                item_widget = DatumItemWidget(el["id"], username=el["username"], enc_password=el["password"])
                 item_widget.clicked.connect(self.controller.datum_item_clicked)
                 item.setSizeHint(QtCore.QSize(0, 50))
                 self.ui.datum_list.addItem(item)
@@ -73,6 +73,9 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
             self.ui.datum.hide()
             self.ui.datum_header_label.clear()
             self.ui.dp_stub.show()
+
+    def error_handler(self, error):
+        pass
 
     def show_add_resource_modal(self):
         self.ui.add_resource_modal = QtWidgets.QDialog(self)
@@ -121,7 +124,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
                 border-radius: 5px;
                 padding: 5px;
             }
-            
+
             QPushButton:hover {
                 background-color: #f1f1f1;
             }
@@ -150,12 +153,12 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
                 border-radius: 5px;
                 padding: 5px;
             }
-            
+
             QLabel {
                 font-size: 16px;
                 font-weight: bold;
             }
-            
+
             QPushButton {
                 background-color: white;
                 font-size: 16px;
@@ -196,7 +199,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
         self.ui.add_password_modal.show()
 
-    def show_password_modal(self, datum_id: str, username: str):
+    def show_password_modal(self, datum_id: str, username: str, password: str):
         self.ui.show_password_modal = QtWidgets.QDialog(self)
         self.ui.show_password_modal.setModal(True)
         self.ui.show_password_modal.setMinimumSize(QtCore.QSize(500, 200))
@@ -234,14 +237,14 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         layout.setProperty("spacing", 30)
 
         # Username
-        self.ui.nd_username_label = QtWidgets.QLineEdit(username)
-        self.ui.nd_username_label.setReadOnly(True)
-        layout.addRow(QtWidgets.QLabel("Username:"), self.ui.nd_username_label)
+        self.ui.nd_username_line = QtWidgets.QLineEdit(username)
+        self.ui.nd_username_line.setReadOnly(True)
+        layout.addRow(QtWidgets.QLabel("Username:"), self.ui.nd_username_line)
 
         # Password
-        self.ui.nd_password_label = QtWidgets.QLineEdit("*" * 16)
-        self.ui.nd_password_label.setReadOnly(True)
-        layout.addRow(QtWidgets.QLabel("Password:"), self.ui.nd_password_label)
+        self.ui.nd_password_line = QtWidgets.QLineEdit("*" * 16)
+        self.ui.nd_password_line.setReadOnly(True)
+        layout.addRow(QtWidgets.QLabel("Password:"), self.ui.nd_password_line)
 
         layout.addRow(QtWidgets.QLabel("Для расшифровки введите пароль:"))
 
@@ -258,6 +261,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
             color=QtGui.QColor("#d1d1d1"),
             offset=QtCore.QPointF(0, 0)
         ))
+        self.showed_password = password
         button.clicked.connect(self.controller.show_password_clicked)
         layout.addRow(button)
 
@@ -284,7 +288,7 @@ class ResourceItemWidget(QtWidgets.QWidget):
             QWidget {
                 background-color: white;
             }
-            
+
             QWidget:hover {
                 background-color: #f1f1f1;
             }
@@ -310,7 +314,7 @@ class ResourceItemWidget(QtWidgets.QWidget):
             QWidget {
                 background-color: white;
             }
-            
+
             QWidget:hover {
                 background-color: #f1f1f1;
             }
@@ -323,10 +327,11 @@ class ResourceItemWidget(QtWidgets.QWidget):
 class DatumItemWidget(QtWidgets.QWidget):
     clicked = QtCore.pyqtSignal(tuple)
 
-    def __init__(self, id: str, username: str, *args, **kwargs):
+    def __init__(self, id: str, username: str, enc_password: str, *args, **kwargs):
         super().__init__()
 
         self.id = id
+        self.enc_password = enc_password
         self.username = QtWidgets.QLabel(username)
 
         layout = QtWidgets.QHBoxLayout()

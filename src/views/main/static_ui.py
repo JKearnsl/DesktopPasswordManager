@@ -45,19 +45,19 @@ class Ui_MainWindow(object):
                 padding: 5px;
                 border: none;
             }
-            
+
             QPushButton:hover {
                 background-color: #304459;
             }
-            
+
             QPushButton:pressed {
                 background-color: #253545;
             }
-            
+
             QPushButton:checked {
                 background-color: black;
             }
-            
+
         """)
         self.mp_layout.addWidget(self.profile_menu_button)
 
@@ -71,15 +71,15 @@ class Ui_MainWindow(object):
                 padding: 5px;
                 border: none;
             }
-            
+
             QPushButton:hover {
                 background-color: #304459;
             }
-            
+
             QPushButton:pressed {
                 background-color: #253545;
             }
-            
+
             QPushButton:checked {
                 background-color: black;
             }
@@ -99,15 +99,15 @@ class Ui_MainWindow(object):
                 padding: 5px;
                 border: none;
             }
-            
+
             QPushButton:hover {
                 background-color: #304459;
             }
-            
+
             QPushButton:pressed {
                 background-color: #253545;
             }
-            
+
             QPushButton:checked {
                 background-color: black;
             }
@@ -123,7 +123,6 @@ class Ui_MainWindow(object):
         self.page_widget.setObjectName("page_widget")
         self.page_widget.setContentsMargins(0, 0, 0, 0)
         self.central_layout.addWidget(self.page_widget)
-
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

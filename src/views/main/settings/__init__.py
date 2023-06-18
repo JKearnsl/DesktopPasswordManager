@@ -4,7 +4,7 @@ from PyQt6 import QtWidgets
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
 from src.models.main import MainModel
-from src.views.main.ui.settingsMenu import Ui_settingsMenu
+from src.views.main.settings.static_ui import Ui_settingsMenu
 
 
 class SettingsView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
@@ -26,4 +26,7 @@ class SettingsView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         # События
 
     def model_changed(self):
+        pass
+
+    def error_handler(self, error):
         pass

@@ -77,7 +77,16 @@ class ResourceModel:
             return
         self.notify_observers()
 
-    def get_datum_password(self, enc_password: str, password: str) -> str | None:
+    def get_datum_password(self, enc_password: str, password: str = None) -> str | None:
+        if self._private_key:
+            try:
+                return decrypt_rsa(enc_password, self._private_key)
+            except ValueError:
+                pass
+
+        if len(password) < 16:
+            password = password + ' ' * (16 - len(password))
+
         response = self._api_service.get_keys()
         if response.get("error"):
             if response["error"]["type"] == 1:
@@ -86,11 +95,10 @@ class ResourceModel:
                 print("error2", response["error"]["content"])
             return
 
-        enc_private_key = response["message"]["private_key"]
-        private_key = decrypt_aes(enc_private_key, password)
+        enc_private_key = response["message"]["enc_private_key"]
+        self._private_key = decrypt_aes(enc_private_key, password)
 
-        dec_password = decrypt_rsa(enc_password, private_key)
-        return dec_password
+        return decrypt_rsa(enc_password, self._private_key)
 
     def load_resource(self, resource_id: str):
         response = self._api_service.password_list(page=1, per_page=100, resource_id=resource_id)

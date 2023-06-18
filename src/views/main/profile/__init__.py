@@ -4,7 +4,7 @@ from PyQt6 import QtWidgets
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
 from src.models.main import MainModel
-from src.views.main.ui.profileMenu import Ui_profileMenu
+from src.views.main.profile.static_ui import Ui_profileMenu
 
 
 class ProfileView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
@@ -26,4 +26,7 @@ class ProfileView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         # События
 
     def model_changed(self):
+        pass
+
+    def error_handler(self, error):
         pass

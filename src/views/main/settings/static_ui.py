@@ -29,4 +29,3 @@ class Ui_settingsMenu(object):
     def retranslateUi(self, settingsMenu):
         _translate = QtCore.QCoreApplication.translate
         # MainWindow.setWindowTitle(_translate("MainWindow", "CompMath"))
-

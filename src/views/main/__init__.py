@@ -2,7 +2,7 @@ from PyQt6 import QtWidgets
 
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
-from src.views.main.ui.MainWindow import Ui_MainWindow
+from src.views.main.static_ui import Ui_MainWindow
 from src.models.main import MainModel
 
 
@@ -26,4 +26,7 @@ class MainView(QtWidgets.QMainWindow, DObserver, metaclass=TSMeta):
         self.closeEvent = self.controller.close
 
     def model_changed(self):
+        pass
+
+    def error_handler(self, error):
         pass

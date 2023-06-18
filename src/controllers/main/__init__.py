@@ -1,8 +1,8 @@
 from src.controllers.main.settings import SettingsController
 from src.controllers.main.resources import ResourcesController
 from src.controllers.main.profile import ProfileController
-from src.models.profile import ProfileModel
-from src.models.resource import ResourceModel
+from src.models.main.profile import ProfileModel
+from src.models.main.resource import ResourceModel
 
 from src.views.main.settings import SettingsView
 from src.views.main.resources import ResourcesView
