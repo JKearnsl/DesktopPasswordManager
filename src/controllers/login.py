@@ -11,7 +11,7 @@ class LoginController:
 
         self.view.show()
 
-    def switch_auth_state(self, event):
+    def switch_auth_state(self, event=None):
         self.model.switch_auth_state()
 
     def signin(self):
@@ -25,4 +25,5 @@ class LoginController:
         login = self.view.ui.login_line_edit.text()
         password = self.view.ui.password_line_edit.text()
         repeat_password = self.view.ui.repeat_password_line_edit.text()
-        self.model.signup(login, password, repeat_password)
+        if self.model.signup(login, password, repeat_password):
+            self.switch_auth_state()

@@ -6,6 +6,7 @@ import httpx
 
 from src.api_service import APIServiceV1
 from src.models.enum.auth_state import AuthState
+from src.models.error import ErrorModel, ErrorType
 from src.utils.encfunctions import generate_keys, encrypt_aes
 
 
@@ -14,7 +15,6 @@ class LoginModel:
     def __init__(self):
         self._api_service = APIServiceV1("http://127.0.0.1:8000/api", self.get_http_session())
         self._auth_state = AuthState.SIGNIN
-        self._errors = []
 
         # список наблюдателей
         self._mObservers = []
@@ -22,10 +22,6 @@ class LoginModel:
     @property
     def auth_state(self):
         return self._auth_state
-
-    @property
-    def errors(self):
-        return self._errors
 
     @property
     def api_service(self) -> APIServiceV1:
@@ -59,7 +55,7 @@ class LoginModel:
             self._auth_state = AuthState.SIGNIN
         self.notify_observers()
 
-    def signin(self, username: str, password: str):
+    def signin(self, username: str, password: str) -> bool:
         if len(password) < 16:
             password = password + ' ' * (16 - len(password))
 
@@ -68,11 +64,7 @@ class LoginModel:
         ).hex()
         result = self._api_service.signin(username, hashed_password)
         if result.get("error"):
-            if result["error"]["type"] == 1:
-                self._errors.append(result["error"]["content"])
-            else:
-                self._errors.append("тип 2")
-            self.notify_observers()
+            self.raise_error(ErrorModel(result["error"]["content"], result["error"]["type"]))
             return False
 
         with open("session", "wb") as file:
@@ -80,16 +72,14 @@ class LoginModel:
             pickle.dump(self._api_service.session.cookies.jar.__getattribute__("_cookies"), file)
         return True
 
-    def signup(self, username: str, password: str, repeat_password: str):
+    def signup(self, username: str, password: str, repeat_password: str) -> bool:
         if password != repeat_password:
-            self._errors.append("Пароли не совпадают")
-            self.notify_observers()
-            return
+            self.raise_error(ErrorModel("Пароли не совпадают", ErrorType.MESSAGE))
+            return False
 
         if len(password) < 8 or len(password) > 32:
-            self._errors.append("Длина пароля должна быть от 8 до 32 символов")
-            self.notify_observers()
-            return
+            self.raise_error(ErrorModel("Пароль должен быть от 8 до 32 символов", ErrorType.MESSAGE))
+            return False
 
         if len(password) < 16:
             """
@@ -108,14 +98,10 @@ class LoginModel:
 
         result = self._api_service.signup(username, hashed_password, public_key, enc_private_key)
         if result.get("error"):
-            if result["error"]["type"] == 1:
-                self._errors.append(result["error"]["content"])
-            else:
-                self._errors.append("Тип 2")
-            self.notify_observers()
-            return
+            self.raise_error(ErrorModel(result["error"]["content"], result["error"]["type"]))
+            return False
 
-        self.switch_auth_state()
+        return True
 
     def add_observer(self, observer):
         self._mObservers.append(observer)
@@ -126,3 +112,7 @@ class LoginModel:
     def notify_observers(self):
         for observer in self._mObservers:
             observer.model_changed()
+
+    def raise_error(self, error: ErrorModel):
+        for observer in self._mObservers:
+            observer.error_handler(error)

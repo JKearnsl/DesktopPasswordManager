@@ -41,10 +41,10 @@ class LoginView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.ui.authResponseLabel.clear()
         self.ui.authResponseLabel.hide()
 
-        if self.model.errors:
+    def error_handler(self, error):
+        if error.type.MESSAGE:
             self.ui.authResponseLabel.show()
-            self.ui.authResponseLabel.setText("\n".join(self.model.errors))
-            self.model.errors.clear()
+            self.ui.authResponseLabel.setText(error.content)
 
     def signin_form(self):
         self.ui.authTitleLabel.setText("Авторизация")

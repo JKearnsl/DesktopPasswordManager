@@ -69,7 +69,7 @@ class Ui_LoginWindow(object):
         # Макет для формы авторизации
         self.authBox = QtWidgets.QGroupBox(LoginWindow)
         self.authBox.setObjectName("authBox")
-        self.authBox.setMaximumSize(QtCore.QSize(350, 300))
+        self.authBox.setMaximumSize(QtCore.QSize(350, 350))
         self.authBox.setContentsMargins(5, 5, 5, 5)
         self.authBox.setStyleSheet("""
             QGroupBox {
