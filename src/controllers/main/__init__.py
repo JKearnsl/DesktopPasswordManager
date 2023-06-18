@@ -18,62 +18,16 @@ class MainController:
         self.view = MainView(self, self.model)
 
         self.view.show()
-        self.show_resources()
-
-    def show_profile(self):
-        self.view.ui.profile_menu_button.setChecked(True)
-        if self.view.ui.page_widget.count() > 0:
-            widget = self.view.ui.page_widget.currentWidget()
-            if isinstance(widget, ProfileView):
-                return
-
-            if isinstance(widget, ResourcesView):
-                self.view.ui.resources_menu_button.setChecked(False)
-
-            if isinstance(widget, SettingsView):
-                self.view.ui.settings_menu_button.setChecked(False)
-
-            for i in range(self.view.ui.page_widget.count()):
-                widget = self.view.ui.page_widget.widget(i)
-                if isinstance(widget, ProfileView):
-                    self.view.ui.page_widget.setCurrentWidget(widget)
-                    return
-        controller = ProfileController(ProfileModel(self.model.api_service), self.view)
-
-    def show_resources(self):
-        self.view.ui.resources_menu_button.setChecked(True)
-        if self.view.ui.page_widget.count() > 0:
-            widget = self.view.ui.page_widget.currentWidget()
-
-            if isinstance(widget, ProfileView):
-                self.view.ui.profile_menu_button.setChecked(False)
-
-            if isinstance(widget, SettingsView):
-                self.view.ui.settings_menu_button.setChecked(False)
-
-            for i in range(self.view.ui.page_widget.count()):
-                widget = self.view.ui.page_widget.widget(i)
-                if isinstance(widget, ResourcesView):
-                    self.view.ui.page_widget.setCurrentWidget(widget)
-                    return
-        controller = ResourcesController(ResourceModel(self.model.api_service), self.view)
+        self.view.model_loaded()
 
     def show_settings(self):
-        self.view.ui.settings_menu_button.setChecked(True)
-        if self.view.ui.page_widget.count() > 0:
-            widget = self.view.ui.page_widget.currentWidget()
-            if isinstance(widget, ProfileView):
-                self.view.ui.profile_menu_button.setChecked(False)
-
-            if isinstance(widget, ResourcesView):
-                self.view.ui.resources_menu_button.setChecked(False)
-
-            for i in range(self.view.ui.page_widget.count()):
-                widget = self.view.ui.page_widget.widget(i)
-                if isinstance(widget, SettingsView):
-                    self.view.ui.page_widget.setCurrentWidget(widget)
-                    return
         controller = SettingsController(self.model, self.view)
+
+    def show_resources(self):
+        controller = ResourcesController(ResourceModel(self.model.api_service), self.view)
+
+    def show_profile(self):
+        controller = ProfileController(ProfileModel(self.model.api_service), self.view)
 
     def close(self, event):
         self.model.save_session()
