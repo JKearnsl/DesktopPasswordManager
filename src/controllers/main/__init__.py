@@ -29,6 +29,5 @@ class MainController:
     def show_profile(self):
         controller = ProfileController(ProfileModel(self.model.api_service), self.view)
 
-    def close(self, event):
+    def close(self):
         self.model.save_session()
-        event.accept()

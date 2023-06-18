@@ -26,7 +26,6 @@ class MainView(QtWidgets.QMainWindow, DObserver, metaclass=TSMeta):
         self.ui.profile_menu_button.clicked.connect(self.show_profile)
         self.ui.resources_menu_button.clicked.connect(self.show_resources)
         self.ui.settings_menu_button.clicked.connect(self.show_settings)
-        self.closeEvent = self.controller.close
 
     def model_changed(self):
         pass
@@ -37,6 +36,9 @@ class MainView(QtWidgets.QMainWindow, DObserver, metaclass=TSMeta):
     def model_loaded(self):
         self.show_resources()
 
+    def closeEvent(self, event):
+        self.controller.close()
+        event.accept()
 
     def switch_page(self, widget_type: type[QtWidgets.QWidget]):
         if self.ui.page_widget.count() > 0:
