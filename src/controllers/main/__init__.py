@@ -4,10 +4,6 @@ from src.controllers.main.profile import ProfileController
 from src.models.main.profile import ProfileModel
 from src.models.main.resource import ResourceModel
 
-from src.views.main.settings import SettingsView
-from src.views.main.resources import ResourcesView
-from src.views.main.profile import ProfileView
-
 from src.views.main import MainView
 
 

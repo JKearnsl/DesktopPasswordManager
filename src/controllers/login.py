@@ -14,16 +14,11 @@ class LoginController:
     def switch_auth_state(self, event=None):
         self.model.switch_auth_state()
 
-    def signin(self):
-        login = self.view.ui.login_line_edit.text()
-        password = self.view.ui.password_line_edit.text()
+    def signin(self, login: str, password: str):
         if self.model.signin(login, password):
             self.view.hide()
-            main_controller = MainController(MainModel(self.model.api_service))
+            controller = MainController(MainModel(self.model.api_service))
 
-    def signup(self):
-        login = self.view.ui.login_line_edit.text()
-        password = self.view.ui.password_line_edit.text()
-        repeat_password = self.view.ui.repeat_password_line_edit.text()
+    def signup(self, login: str, password: str, repeat_password: str):
         if self.model.signup(login, password, repeat_password):
             self.switch_auth_state()

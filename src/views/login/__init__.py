@@ -27,7 +27,7 @@ class LoginView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
         # События
         self.ui.switchAuthStateLabel.mousePressEvent = self.controller.switch_auth_state
-        self.ui.signin_button.clicked.connect(self.controller.signin)
+        self.ui.signin_button.clicked.connect(self.signin_clicked)
         self.ui.signup_button.clicked.connect(self.controller.signup)
 
     def model_changed(self):
@@ -43,6 +43,17 @@ class LoginView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         if error.type.MESSAGE:
             self.ui.authResponseLabel.show()
             self.ui.authResponseLabel.setText(error.content)
+
+    def signin_clicked(self):
+        login = self.ui.login_line_edit.text()
+        password = self.ui.password_line_edit.text()
+        self.controller.signin(login, password)
+
+    def signup_clicked(self):
+        login = self.ui.login_line_edit.text()
+        password = self.ui.password_line_edit.text()
+        repeat_password = self.ui.repeat_password_line_edit.text()
+        self.controller.signup(login, password, repeat_password)
 
     def signin_form(self):
         self.ui.authTitleLabel.setText("Авторизация")
