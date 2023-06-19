@@ -1,13 +1,13 @@
 import pickle
 
 from src.api_service import APIServiceV1
+from src.models.error import ErrorModel
 
 
 class MainModel:
 
     def __init__(self, api: APIServiceV1):
         self._api_service = api
-        self._errors = []
 
         # список наблюдателей
         self._mObservers = []
@@ -15,10 +15,6 @@ class MainModel:
     @property
     def api_service(self):
         return self._api_service
-
-    @property
-    def errors(self):
-        return self._errors
 
     def save_session(self):
         with open("session", "wb") as file:
@@ -34,3 +30,7 @@ class MainModel:
     def notify_observers(self):
         for observer in self._mObservers:
             observer.model_changed()
+
+    def raise_error(self, error: ErrorModel):
+        for observer in self._mObservers:
+            observer.error_handler(error)
