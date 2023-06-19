@@ -3,9 +3,9 @@ from PyQt6.QtWidgets import QGraphicsDropShadowEffect
 
 
 class Ui_resourcesMenu(object):
-    def setupUi(self, settingsMenu):
-        settingsMenu.setObjectName("settingsMenu")
-        self.central_layout = QtWidgets.QHBoxLayout(settingsMenu)
+    def setupUi(self, resource_menu):
+        resource_menu.setObjectName("resource_menu")
+        self.central_layout = QtWidgets.QHBoxLayout(resource_menu)
         self.central_layout.setContentsMargins(0, 0, 0, 0)
         self.central_layout.setObjectName("central_layout")
         self.central_layout.setProperty("spacing", 0)
@@ -204,123 +204,127 @@ class Ui_resourcesMenu(object):
         )
         self.dp_layout.addWidget(self.dp_stub)
 
-        # Шаблон данных
-        self.datum = QtWidgets.QWidget()
-        self.datum.setObjectName("datum")
-        self.datum_layout = QtWidgets.QVBoxLayout(self.datum)
-        self.datum_layout.setObjectName("datum_layout")
-        self.datum_layout.setContentsMargins(0, 0, 0, 0)
-        self.datum_layout.setProperty("spacing", 0)
-
-        # header
-        self.datum_header = QtWidgets.QWidget()
-        self.datum_header.setObjectName("datum_header")
-        self.datum_header.setStyleSheet("""
-            QWidget {
+        # modal
+        self.ar_modal = QtWidgets.QDialog(resource_menu)
+        self.ar_modal.setModal(True)
+        self.ar_modal.setMinimumSize(QtCore.QSize(400, 200))
+        self.ar_modal.setWindowTitle("Добавить ресурс")
+        self.ar_modal.setStyleSheet("""
+            QDialog {
                 background-color: white;
             }
         """)
-        self.datum_header.setFixedHeight(60)
-        self.datum_header_layout = QtWidgets.QHBoxLayout(self.datum_header)
-        self.datum_header_layout.setObjectName("datum_header_layout")
-        self.datum_header_layout.setContentsMargins(0, 0, 0, 0)
-        self.datum_header_layout.addItem(
-            QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        )
-        self.datum_header_label = QtWidgets.QLabel()
-        self.datum_header_label.setObjectName("datum_header_label")
-        self.datum_header_label.setStyleSheet("""
+        layout = QtWidgets.QFormLayout(self.ar_modal)
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setProperty("spacing", 30)
+
+        text_1 = QtWidgets.QLabel("Title:")
+        text_1.setStyleSheet("""
             QLabel {
-                font-size: 18px;
-                font-weight: bold;
-                color: black;
-
-            }
-        """)
-        self.datum_header_label.setText("Title")
-        self.datum_header_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.datum_header_layout.addWidget(self.datum_header_label)
-        self.datum_layout.addWidget(self.datum_header)
-
-        # list
-        self.datum_list = QtWidgets.QListWidget()
-        self.datum_list.setObjectName("datum_list")
-        self.datum_list.setStyleSheet("""
-            QListWidget {
-                background-color: transparent;
                 font-size: 16px;
-                margin: 10px;
+                font-weight: bold;
             }
+        """)
 
-            QListWidget:item {
-                border-bottom: 1px solid #ccc;
+        self.ar_title = QtWidgets.QLineEdit()
+        self.ar_title.setMaxLength(128)
+        self.ar_title.setStyleSheet("""
+            QLineEdit {
+                font-size: 16px;
+                font-weight: bold;
+                border: 2px solid #ccc;
                 border-radius: 5px;
-                background-color: white;
-            }
-
-            QListWidget:item:selected {
-                color: white;
+                padding: 5px;
             }
         """)
+        layout.addRow(text_1, self.ar_title)
 
-        self.datum_layout.addWidget(self.datum_list)
-
-        # footer
-        self.datum_footer = QtWidgets.QWidget()
-        self.datum_footer.setObjectName("datum_footer")
-        self.datum_footer.setStyleSheet("""
-            QWidget {
-                background-color: white;
-                border-top: 1px solid #d1d1d1;
-            }
-        """)
-        self.datum_footer.setFixedHeight(50)
-        self.datum_footer_layout = QtWidgets.QHBoxLayout(self.datum_footer)
-        self.datum_footer_layout.setObjectName("datum_footer_layout")
-        self.datum_footer_layout.setContentsMargins(0, 0, 0, 0)
-        self.datum_footer_layout.addItem(
-            QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        )
-        self.datum_add_button = QtWidgets.QPushButton()
-        self.datum_add_button.setObjectName("datum_add_button")
-        self.datum_add_button.setStyleSheet("""
+        # Кнопка
+        self.ar_button = QtWidgets.QPushButton("Добавить")
+        self.ar_button.setStyleSheet("""
             QPushButton {
                 background-color: white;
                 font-size: 16px;
                 font-weight: bold;
-                color: black;
-                border-radius: 4px;
-                border: 1px solid #d1d1d1;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 5px;
             }
 
             QPushButton:hover {
                 background-color: #f1f1f1;
             }
-
-            QPushButton:pressed {
-                background-color: #e1e1e1;
-            }
         """)
-        self.datum_add_button.setText("+")
-        self.datum_add_button.setMinimumWidth(100)
-        self.datum_add_button.setMaximumWidth(200)
-        self.datum_add_button.setGraphicsEffect(QGraphicsDropShadowEffect(
+        self.ar_button.setGraphicsEffect(QGraphicsDropShadowEffect(
             blurRadius=10,
             color=QtGui.QColor("#d1d1d1"),
             offset=QtCore.QPointF(0, 0)
         ))
-        self.datum_footer_layout.addWidget(self.datum_add_button)
-        self.datum_layout.addWidget(self.datum_footer)
-        self.datum_footer_layout.addItem(
-            QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        )
+
+        layout.addRow(self.ar_button)
 
         self.separator.addWidget(self.datum_panel)
         self.central_layout.addWidget(self.separator)
 
-        self.retranslateUi(settingsMenu)
-        QtCore.QMetaObject.connectSlotsByName(settingsMenu)
+        self.retranslateUi(resource_menu)
+        QtCore.QMetaObject.connectSlotsByName(resource_menu)
 
-    def retranslateUi(self, settingsMenu):
+    def retranslateUi(self, resource_menu):
         _translate = QtCore.QCoreApplication.translate
         # MainWindow.setWindowTitle(_translate("MainWindow", "CompMath"))
+
+
+class ResourceItemWidget(QtWidgets.QWidget):
+    clicked = QtCore.pyqtSignal(tuple)
+
+    def __init__(self, id: str, title: str, *args, **kwargs):
+        super().__init__()
+
+        self.id = id
+        self.title = QtWidgets.QLabel(title)
+
+        layout = QtWidgets.QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.title)
+
+        self.setLayout(layout)
+        self.mouseReleaseEvent = self.signal_change
+
+        self.setStyleSheet("""
+            QWidget {
+                background-color: white;
+            }
+
+            QWidget:hover {
+                background-color: #f1f1f1;
+            }
+        """)
+        self.title.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                padding: 10px;
+            }
+        """)
+        self.title.setWordWrap(False)
+        self.setFixedHeight(50)
+
+    def set_as_current(self):
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #f1f1f1;
+            }
+        """)
+
+    def unset_as_current(self):
+        self.setStyleSheet("""
+            QWidget {
+                background-color: white;
+            }
+
+            QWidget:hover {
+                background-color: #f1f1f1;
+            }
+        """)
+
+    def signal_change(self, *args, **kwargs):
+        self.clicked.emit((self.id, self))
