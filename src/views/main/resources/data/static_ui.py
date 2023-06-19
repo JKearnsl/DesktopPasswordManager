@@ -11,7 +11,7 @@ class UiDatum:
         self.central_layout.setProperty("spacing", 0)
 
         self.datum = QtWidgets.QWidget()
-        self.datum.setObjectName("datum")
+        self.datum.setObjectName("data")
         self.datum_layout = QtWidgets.QVBoxLayout(self.datum)
         self.datum_layout.setObjectName("datum_layout")
         self.datum_layout.setContentsMargins(0, 0, 0, 0)
@@ -120,7 +120,7 @@ class UiDatum:
             QtWidgets.QSpacerItem(10, 0, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         )
 
-        # Modal: add datum
+        # Modal: add data
         self.ad_modal = QtWidgets.QDialog(ui_datum)
         self.ad_modal.setModal(True)
         self.ad_modal.setMinimumSize(QtCore.QSize(500, 200))
@@ -176,100 +176,6 @@ class UiDatum:
             offset=QtCore.QPointF(0, 0)
         ))
         layout.addRow(self.ad_button)
-
-        # Modal: show datum
-        self.sd_modal = QtWidgets.QDialog(ui_datum)
-        self.sd_modal.setModal(True)
-        self.sd_modal.setMinimumSize(QtCore.QSize(500, 200))
-        self.sd_modal.setWindowTitle("Пароль")
-        self.sd_modal.setStyleSheet(""" 
-            QDialog { background-color: white; } 
-            QLineEdit {
-                font-size: 16px;
-                font-weight: bold;
-                border: 2px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-            }
-
-            QLabel {
-                font-size: 16px;
-                font-weight: bold;
-            }
-
-            QPushButton {
-                background-color: white;
-                font-size: 16px;
-                font-weight: bold;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                padding: 5px;
-            }
-
-            QPushButton:hover {
-                background-color: #f1f1f1;
-            }
-        """)
-        layout = QtWidgets.QFormLayout(self.sd_modal)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setProperty("spacing", 30)
-
-        # Title
-        self.sd_datum_id = QtWidgets.QLabel()
-        self.sd_datum_id.setObjectName("sd_datum_id")
-        self.sd_datum_id.setStyleSheet("""
-            QLabel {
-                font-size: 20px;
-                font-weight: bold;
-                color: black;
-            }
-        """)
-        self.sd_datum_id.setText("Просмотр данных")
-        self.sd_datum_id.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        layout.addRow(self.sd_datum_id)
-
-        # Username
-        self.sd_username_line = QtWidgets.QLineEdit()
-        self.sd_username_line.setReadOnly(True)
-        layout.addRow(QtWidgets.QLabel("Username:"), self.sd_username_line)
-
-        # Password
-        self.sd_password_line = QtWidgets.QLineEdit("*" * 16)
-        self.sd_password_line.setReadOnly(True)
-        layout.addRow(QtWidgets.QLabel("Password:"), self.sd_password_line)
-
-        # Decrypt panel
-        self.sd_enc_password = None
-        self.decrypt_panel = QtWidgets.QWidget()
-        self.decrypt_panel.setObjectName("decrypt_panel")
-        self.decrypt_panel.setStyleSheet("""
-            QWidget#decrypt_panel {
-                background-color: #f1f1f1;
-                border-radius: 5px;
-                padding: 10px;
-            }
-        """)
-        self.decrypt_panel_layout = QtWidgets.QVBoxLayout(self.decrypt_panel)
-        self.decrypt_panel_layout.setContentsMargins(0, 0, 0, 0)
-        self.decrypt_panel_layout.setSpacing(0)
-        self.decrypt_panel_layout.addWidget(QtWidgets.QLabel("Для расшифровки введите пароль:"))
-
-        # User Password
-        self.sd_user_password_line = QtWidgets.QLineEdit()
-        self.sd_user_password_line.setMaxLength(64)
-        self.sd_user_password_line.setPlaceholderText("Пользовательский пароль")
-        self.sd_user_password_line.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
-        self.decrypt_panel_layout.addWidget(self.sd_user_password_line)
-
-        # Кнопка
-        self.sd_decrypt_button = QtWidgets.QPushButton("Расшифровать")
-        self.sd_decrypt_button.setGraphicsEffect(QGraphicsDropShadowEffect(
-            blurRadius=10,
-            color=QtGui.QColor("#d1d1d1"),
-            offset=QtCore.QPointF(0, 0)
-        ))
-        self.decrypt_panel_layout.addWidget(self.sd_decrypt_button)
-        layout.addRow(self.decrypt_panel)
 
         self.retranslateUi(ui_datum)
         QtCore.QMetaObject.connectSlotsByName(ui_datum)

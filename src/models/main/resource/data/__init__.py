@@ -3,7 +3,7 @@ from src.models.error import ErrorModel
 from src.utils.encfunctions import decrypt_rsa, decrypt_aes, encrypt_rsa
 
 
-class DatumModel:
+class DataModel:
     def __init__(self, api: APIServiceV1, scope: dict[str]):
         self._api_service = api
         self.scope = scope
@@ -17,6 +17,10 @@ class DatumModel:
     def data(self) -> list[dict[str]]:
         return self._data
 
+    @property
+    def api_service(self) -> APIServiceV1:
+        return self._api_service
+
     def load_data_list(self, page=1, per_page=100, resource_id: str = None) -> None:
         response = self._api_service.password_list(
             page=page,
@@ -28,33 +32,6 @@ class DatumModel:
             return
         self._data = response["message"]
         self.notify_observers()
-
-    def get_datum_password(self, enc_password: str, password: str = None) -> str | None:
-        resource_model = self.scope["resource_model"]
-        if resource_model.private_key:
-            try:
-                return decrypt_rsa(enc_password, resource_model.private_key)
-            except ValueError:
-                resource_model.private_key = None
-                self.raise_error(ErrorModel("Для продолжения введите пароль", 1))
-                return None
-
-        if len(password) < 16:
-            password = password + ' ' * (16 - len(password))
-
-        response = self._api_service.get_keys()
-        if response.get("error"):
-            self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
-            return None
-
-        enc_private_key = response["message"]["enc_private_key"]
-        try:
-            resource_model.private_key = decrypt_aes(enc_private_key, password)
-        except (UnicodeDecodeError, UnicodeEncodeError):    # todo: fix this
-            self.raise_error(ErrorModel("Неверный пароль", 1))
-            return None
-
-        return decrypt_rsa(enc_password, resource_model.private_key)
 
     def add_datum(self, resource_id: str, username: str, password: str):
         response = self._api_service.get_keys()

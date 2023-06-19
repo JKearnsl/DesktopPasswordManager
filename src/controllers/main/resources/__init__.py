@@ -1,5 +1,5 @@
-from src.controllers.main.resources.datum import DatumController
-from src.models.main.resource.datum import DatumModel
+from src.controllers.main.resources.data import DataController
+from src.models.main.resource.data import DataModel
 from src.views.main.resources import ResourcesView
 
 
@@ -12,8 +12,8 @@ class ResourcesController:
         self.view.show()
         self.view.model_loaded()
 
-    def show_datum(self, scope: dict):
-        controller = DatumController(DatumModel(api=self.model.api_service, scope=scope), self.view)
+    def show_data(self, scope: dict):
+        controller = DataController(DataModel(api=self.model.api_service, scope=scope), self.view)
 
     def search_resource(self, query: str):
         self.model.search_resources(query)
