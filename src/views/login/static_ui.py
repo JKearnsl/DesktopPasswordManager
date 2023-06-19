@@ -113,7 +113,7 @@ class Ui_LoginWindow(object):
         self.authResponseLabel.setStyleSheet("""
             QLabel {
                 font-size: 12px;
-                font-weight: normal;
+                font-weight: bold;
                 color: red;
             }
         """)
