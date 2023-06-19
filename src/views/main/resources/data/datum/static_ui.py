@@ -3,10 +3,12 @@ from PyQt6.QtWidgets import QGraphicsDropShadowEffect
 
 
 class UiDatumItemModal:
-    def setup_ui(self, modal):
+    def setup_ui(self, modal: QtWidgets.QDialog):
         modal.setObjectName("UiDatumItemModal")
         modal.setModal(True)
         modal.setMinimumSize(QtCore.QSize(500, 200))
+        modal.setMaximumSize(QtCore.QSize(600, 400))
+
         modal.setWindowTitle("Пароль")
         modal.setStyleSheet(""" 
             QDialog { background-color: white; } 
@@ -36,22 +38,26 @@ class UiDatumItemModal:
                 background-color: #f1f1f1;
             }
         """)
-        layout = QtWidgets.QFormLayout(modal)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setProperty("spacing", 30)
+        layout = QtWidgets.QVBoxLayout(modal)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setProperty("spacing", 0)
+        form_layout = QtWidgets.QFormLayout()
+        form_layout.setContentsMargins(20, 0, 20, 30)
+        form_layout.setProperty("spacing", 0)
 
         # Title
         self.head_title = QtWidgets.QLabel()
         self.head_title.setStyleSheet("""
             QLabel {
-                font-size: 20px;
+                font-size: 25px;
                 font-weight: bold;
                 color: black;
             }
         """)
+        self.head_title.setFixedHeight(50)
         self.head_title.setText("Просмотр данных")
         self.head_title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        layout.addRow(self.head_title)
+        layout.addWidget(self.head_title)
 
         # Error label
         self.error_label = QtWidgets.QLabel()
@@ -64,18 +70,17 @@ class UiDatumItemModal:
         """)
         self.error_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.error_label.setWordWrap(True)
-        self.error_label.hide()
-        layout.addRow(self.error_label)
+        layout.addWidget(self.error_label)
 
         # Username
         self.username_line = QtWidgets.QLineEdit()
         self.username_line.setReadOnly(True)
-        layout.addRow(QtWidgets.QLabel("Username:"), self.username_line)
+        form_layout.addRow(QtWidgets.QLabel("Username:"), self.username_line)
 
         # Password
         self.password_line = QtWidgets.QLineEdit("*" * 16)
         self.password_line.setReadOnly(True)
-        layout.addRow(QtWidgets.QLabel("Password:"), self.password_line)
+        form_layout.addRow(QtWidgets.QLabel("Password:"), self.password_line)
 
         # Decrypt panel
         self.enc_password = None
@@ -89,8 +94,8 @@ class UiDatumItemModal:
             }
         """)
         self.decrypt_panel_layout = QtWidgets.QVBoxLayout(self.decrypt_panel)
-        self.decrypt_panel_layout.setContentsMargins(0, 0, 0, 0)
-        self.decrypt_panel_layout.setSpacing(0)
+        form_layout.setContentsMargins(20, 20, 20, 20)
+        form_layout.setProperty("spacing", 30)
         self.decrypt_panel_layout.addWidget(QtWidgets.QLabel("Для расшифровки введите пароль:"))
 
         # User Password
@@ -108,7 +113,8 @@ class UiDatumItemModal:
             offset=QtCore.QPointF(0, 0)
         ))
         self.decrypt_panel_layout.addWidget(self.decrypt_button)
-        layout.addRow(self.decrypt_panel)
+        form_layout.addRow(self.decrypt_panel)
+        layout.addLayout(form_layout)
 
         self.retranslateUi(modal)
         QtCore.QMetaObject.connectSlotsByName(modal)
