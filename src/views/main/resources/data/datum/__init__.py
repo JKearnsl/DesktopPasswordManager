@@ -45,7 +45,7 @@ class DatumView(QtWidgets.QDialog, DObserver, metaclass=TSMeta):
         self.setWindowTitle(self.model.id)
         self.ui.username_line.setText(self.model.username)
 
-        if not self.model.scope["resource_model"].private_key:
+        if not self.model.scope["main_model"].private_key:
             self.ui.decrypt_panel.show()
         else:
             self.ui.decrypt_panel.hide()

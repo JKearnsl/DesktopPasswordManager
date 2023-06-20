@@ -17,14 +17,14 @@ class DatumModel:
         self._mObservers = []
 
     def decrypt_datum_password(self, user_password: str = None) -> None:
-        resource_model = self.scope["resource_model"]
-        if resource_model.private_key:
+        main_model = self.scope["main_model"]
+        if main_model.private_key:
             try:
-                self.dec_password = decrypt_rsa(self.enc_password, resource_model.private_key)
+                self.dec_password = decrypt_rsa(self.enc_password, main_model.private_key)
                 self.notify_observers()
                 return
             except ValueError:
-                resource_model.private_key = None
+                main_model.private_key = None
                 self.raise_error(ErrorModel("Для продолжения введите пароль", 1))
                 return
 
@@ -38,12 +38,12 @@ class DatumModel:
 
         enc_private_key = response["message"]["enc_private_key"]
         try:
-            resource_model.private_key = decrypt_aes(enc_private_key, user_password)
+            main_model.private_key = decrypt_aes(enc_private_key, user_password)
         except (UnicodeDecodeError, UnicodeEncodeError):    # todo: fix this
             self.raise_error(ErrorModel("Неверный пароль", 1))
             return
 
-        self.dec_password = decrypt_rsa(self.enc_password, resource_model.private_key)
+        self.dec_password = decrypt_rsa(self.enc_password, main_model.private_key)
         self.notify_observers()
 
     def add_observer(self, observer):

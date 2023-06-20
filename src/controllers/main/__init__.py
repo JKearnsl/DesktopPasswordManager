@@ -19,8 +19,8 @@ class MainController:
     def show_settings(self):
         controller = SettingsController(self.model, self.view)
 
-    def show_resources(self):
-        controller = ResourcesController(ResourceModel(self.model.api_service), self.view)
+    def show_resources(self, scope: dict[str]):
+        controller = ResourcesController(ResourceModel(self.model.api_service, scope=scope), self.view)
 
     def show_profile(self):
         controller = ProfileController(ProfileModel(self.model.api_service), self.view)

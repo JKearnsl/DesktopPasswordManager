@@ -4,10 +4,10 @@ from src.models.error import ErrorModel
 
 class ResourceModel:
 
-    def __init__(self, api: APIServiceV1):
+    def __init__(self, api: APIServiceV1, scope: dict[str]):
         self._api_service = api
         self._loaded_resources = []
-        self._private_key = None
+        self.scope = scope
 
         # список наблюдателей
         self._mObservers = []
@@ -19,14 +19,6 @@ class ResourceModel:
     @property
     def api_service(self):
         return self._api_service
-
-    @property
-    def private_key(self):
-        return self._private_key
-
-    @private_key.setter
-    def private_key(self, value):
-        self._private_key = value
 
     def search_resources(self, query: str = None):
         self._loaded_resources.clear()

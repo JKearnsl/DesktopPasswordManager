@@ -8,13 +8,22 @@ class MainModel:
 
     def __init__(self, api: APIServiceV1):
         self._api_service = api
+        self._private_key = None
 
         # список наблюдателей
         self._mObservers = []
 
     @property
-    def api_service(self):
+    def api_service(self) -> APIServiceV1:
         return self._api_service
+
+    @property
+    def private_key(self) -> str | None:
+        return self._private_key
+
+    @private_key.setter
+    def private_key(self, value):
+        self._private_key = value
 
     def save_session(self):
         with open("session", "wb") as file:

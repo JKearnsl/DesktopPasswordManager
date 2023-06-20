@@ -79,7 +79,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         data[1].set_as_current()
         self.current_resource = data[1]
         self.ui.dp_stub.hide()
-        scope = {"resource_id": resource_id, "resource_model": self.model}
+        scope = {"resource_id": resource_id, "main_model": self.model.scope["main_model"]}
         self.controller.show_data(scope)
 
     def search_resource(self):
