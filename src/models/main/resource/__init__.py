@@ -35,7 +35,7 @@ class ResourceModel:
     def load_resources(self, page: int = 1, per_page: int = 10, query: str = None, order_by: str = "created_at"):
         response = self._api_service.resource_list(page, per_page=per_page, query=query, order_by=order_by)
         if response.get("error"):
-            self.raise_error(ErrorModel(response["error"]["type"], response["error"]["content"]))
+            self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
             return
 
         if not response["message"]:
@@ -50,7 +50,7 @@ class ResourceModel:
     def add_resource(self, title: str):
         response = self._api_service.resource_new(title)
         if response.get("error"):
-            self.raise_error(ErrorModel(response["error"]["type"], response["error"]["content"]))
+            self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
             return
 
     def add_observer(self, observer):
