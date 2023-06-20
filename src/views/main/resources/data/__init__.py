@@ -47,7 +47,7 @@ class DataView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.ui.datum.show()
 
     def error_handler(self, error):
-        QtWidgets.QErrorMessage(self).showMessage(error.content)
+        QtWidgets.QMessageBox.critical(self, "Ошибка", error.content)
 
     def model_loaded(self):
         self.controller.load_data_list()

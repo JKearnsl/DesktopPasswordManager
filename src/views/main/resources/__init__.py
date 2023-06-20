@@ -57,7 +57,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
             self.ui.resource_list.setItemWidget(item, item_widget)
 
     def error_handler(self, error):
-        pass
+        QtWidgets.QMessageBox.critical(self, "Ошибка", error.content)
 
     def model_loaded(self):
         self.load_resource_list()
