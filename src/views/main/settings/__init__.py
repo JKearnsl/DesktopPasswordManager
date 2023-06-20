@@ -1,21 +1,24 @@
+from typing import TypeVar
 
 from PyQt6 import QtWidgets
 
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
 from src.models.main import MainModel
-from src.views.main.settings.static_ui import Ui_settingsMenu
+from src.views.main.settings.static_ui import UiSettingsMenu
+
+ViewModel = TypeVar('ViewModel', bound=QtWidgets.QWidget)
 
 
 class SettingsView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
-    def __init__(self, controller, model: MainModel, parent):
-        super(QtWidgets.QWidget, self).__init__(parent)
+    def __init__(self, controller, model: MainModel, parent: ViewModel):
+        super().__init__(parent)
         self.controller = controller
         self.model = model
 
-        self.ui = Ui_settingsMenu()
-        self.ui.setupUi(self)
+        self.ui = UiSettingsMenu()
+        self.ui.setup_ui(self)
 
         parent.ui.page_widget.addWidget(self)
         parent.ui.page_widget.setCurrentWidget(self)

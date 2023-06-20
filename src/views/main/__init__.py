@@ -5,7 +5,7 @@ from src.utils.ts_meta import TSMeta
 from src.views.main.profile import ProfileView
 from src.views.main.resources import ResourcesView
 from src.views.main.settings import SettingsView
-from src.views.main.static_ui import Ui_MainWindow
+from src.views.main.static_ui import UiMainWindow
 from src.models.main import MainModel
 
 
@@ -16,8 +16,8 @@ class MainView(QtWidgets.QMainWindow, DObserver, metaclass=TSMeta):
         self.controller = controller
         self.model = model
 
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        self.ui = UiMainWindow()
+        self.ui.setup_ui(self)
 
         # Регистрация представлений
         self.model.add_observer(self)
@@ -78,7 +78,8 @@ class MainView(QtWidgets.QMainWindow, DObserver, metaclass=TSMeta):
             if isinstance(widget, ResourcesView):
                 self.ui.page_widget.setCurrentWidget(widget)
                 return
-        self.controller.show_resources()
+        scope = dict(main_model=self.model)
+        self.controller.show_resources(scope)
 
     def show_settings(self):
         self.switch_page(SettingsView)

@@ -1,23 +1,23 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
-        MainWindow.setStyleSheet("""
+class UiMainWindow(object):
+    def setup_ui(self, main_window):
+        main_window.setObjectName("main_window")
+        main_window.resize(800, 600)
+        main_window.setStyleSheet("""
             QMainWindow {
                 background-color: rgb(220, 226, 218);
                 border: none;
             }
         """)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget = QtWidgets.QWidget(main_window)
         self.centralwidget.setObjectName("centralwidget")
         self.central_layout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.central_layout.setObjectName("central_layout")
         self.central_layout.setContentsMargins(0, 0, 0, 0)
         self.central_layout.setProperty("spacing", 0)
-        MainWindow.setCentralWidget(self.centralwidget)
+        main_window.setCentralWidget(self.centralwidget)
 
         # Панель меню
         self.menu_panel = QtWidgets.QWidget()
@@ -124,10 +124,10 @@ class Ui_MainWindow(object):
         self.page_widget.setContentsMargins(0, 0, 0, 0)
         self.central_layout.addWidget(self.page_widget)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.translate_ui(main_window)
+        QtCore.QMetaObject.connectSlotsByName(main_window)
 
-    def retranslateUi(self, MainWindow):
+    def translate_ui(self, main_window):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Password Manager"))
+        main_window.setWindowTitle(_translate("MainWindowTitle", "Password Manager"))
 
