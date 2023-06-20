@@ -64,7 +64,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
     def resource_item_clicked(self, data):
         resource_id = data[0]
-        if self.current_resource:  # todo: если выбран `item`, но происходит поиск, то переключение выбросит исключение
+        if self.current_resource:
             self.current_resource.unset_as_current()
 
         for i in range(self.ui.dp_layout.count()):
@@ -83,6 +83,9 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.controller.show_data(scope)
 
     def search_resource(self):
+        if self.current_resource:
+            self.current_resource.unset_as_current()
+            self.current_resource = None
         query = self.ui.search_line.text()
         self.controller.search_resource(query)
 
