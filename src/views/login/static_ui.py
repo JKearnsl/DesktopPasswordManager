@@ -18,10 +18,10 @@ class Ui_LoginWindow(object):
             }
             
             QWidget#LoginWindow {
-                background-color: #dce29f;
+                background-color: rgb(220, 226, 218);
                 border: none;
             }
-        """)
+        """)  # old background #dce29f
         self.horizontalLayout = QtWidgets.QHBoxLayout(LoginWindow)
         self.horizontalLayout.setObjectName("horizontalLayout")
 
