@@ -11,7 +11,7 @@ class DatumModel:
         self.id = scope["datum_id"]
         self.username = scope["datum_username"]
         self.enc_password = scope["datum_enc_password"]
-        self.dec_password = None
+        self.dec_password = None if scope["datum_enc_password"] else ''
 
         # список наблюдателей
         self._mObservers = []

@@ -1,7 +1,6 @@
 from typing import TypeVar
 
-from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtCore import Qt
+from PyQt6 import QtWidgets
 from src.models.main.resource.data.datum import DatumModel
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
@@ -45,7 +44,11 @@ class DatumView(QtWidgets.QDialog, DObserver, metaclass=TSMeta):
         self.setWindowTitle(self.model.id)
         self.ui.username_line.setText(self.model.username)
 
-        if not self.model.scope["main_model"].private_key:
+        if self.model.dec_password is not None:
+            self.ui.decrypt_panel.hide()
+            self.ui.password_line.setText(self.model.dec_password)
+            self.model_changed()
+        elif not self.model.scope["main_model"].private_key:
             self.ui.decrypt_panel.show()
         else:
             self.ui.decrypt_panel.hide()

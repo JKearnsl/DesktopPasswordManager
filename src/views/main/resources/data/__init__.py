@@ -38,7 +38,7 @@ class DataView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         for i, el in enumerate(self.model.data):
             item = QtWidgets.QListWidgetItem(self.ui.datum_list)
             item.setFlags(Qt.ItemFlag.ItemIsEnabled)
-            item_widget = DatumItemWidget(el["id"], username=el["username"], enc_password=el["password"])
+            item_widget = DatumItemWidget(el["id"], username=el["username"], enc_password=el["enc_password"])
             item_widget.clicked.connect(self.show_datum_modal)
             item.setSizeHint(QtCore.QSize(0, 50))
             self.ui.datum_list.addItem(item)

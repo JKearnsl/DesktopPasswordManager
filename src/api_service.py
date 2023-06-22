@@ -154,7 +154,7 @@ class APIServiceV1:
         except JSONDecodeError:
             return dict(error=dict(content="Неизвестная ошибка", type=1))
 
-    def password_new(self, resource_id: str, username: str, password: str):
+    def password_new(self, resource_id: str, username: str, enc_password: str):
         try:
             result = self._session.post(
                 self._base_url + "password/new",
@@ -163,7 +163,7 @@ class APIServiceV1:
                 ),
                 json=dict(
                     username=username,
-                    password=password
+                    enc_password=enc_password
                 )
             )
             if result.status_code == 201:
