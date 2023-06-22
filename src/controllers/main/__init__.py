@@ -23,7 +23,8 @@ class MainController:
         controller = ResourcesController(ResourceModel(self.model.api_service, scope=scope), self.view)
 
     def show_profile(self):
-        controller = ProfileController(ProfileModel(self.model.api_service), self.view)
+        scope = {"main_model": self.model}
+        controller = ProfileController(ProfileModel(self.model.api_service, scope=scope), self.view)
 
     def close(self):
         self.model.save_session()

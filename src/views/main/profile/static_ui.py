@@ -14,11 +14,11 @@ class UiProfileMenu:
         self.content_widget = QtWidgets.QWidget(profile_menu)
         self.content_widget.setObjectName("content_widget")
         self.content_widget.setStyleSheet("""
-                    QWidget {
-                        background-color: #f5f5f5;
-                        border: none;
-                    }
-                """)
+            QWidget {
+                background-color: #f5f5f5;
+                border: none;
+            }
+        """)
         self.content_widget.setGraphicsEffect(QGraphicsDropShadowEffect(
             blurRadius=10,
             color=QtGui.QColor(0, 0, 0, 25),
@@ -37,14 +37,14 @@ class UiProfileMenu:
         # Title
         self.title_label = QtWidgets.QLabel(self.content_widget)
         self.title_label.setStyleSheet("""
-                    QLabel {
-                        font-size: 24px;
-                        font-weight: bold;
-                        color: black;
-                        padding: 20px;
-                        border-bottom: 1px solid #e0e0e0;
-                    }
-                """)
+            QLabel {
+                font-size: 24px;
+                font-weight: bold;
+                color: black;
+                padding: 20px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+        """)  # "border: none; border-bottom: 1px solid #e0e0e0;" - bug
         self.title_label.setText("Профиль")
         self.title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.title_label.setGraphicsEffect(QGraphicsDropShadowEffect(
@@ -53,43 +53,224 @@ class UiProfileMenu:
             offset=QtCore.QPointF(0, 0)
         ))
         self.content_layout.addWidget(self.title_label)
+        self.content_layout.addItem(
+            QtWidgets.QSpacerItem(0, 30, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
 
         # Settings form
         self.settings_form = QtWidgets.QFormLayout()
         self.settings_form.setContentsMargins(20, 0, 20, 0)
         self.settings_form.setVerticalSpacing(20)
         self.settings_form.setHorizontalSpacing(10)
+        self.settings_form.setFieldGrowthPolicy(QtWidgets.QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow)
+        self.settings_form.setLabelAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
         self.content_layout.addLayout(self.settings_form)
 
-        # ...
+        # Username
+        self.username_label = QtWidgets.QLabel(self.content_widget)
+        self.username_label.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                font-weight: bold;
+                color: black;
+                padding: 10px;
+            }
+        """)
+        self.username_label.setText("Имя пользователя")
+        self.settings_form.setWidget(0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.username_label)
+        self.username_input = QtWidgets.QLineEdit(self.content_widget)
+        self.username_input.setStyleSheet("""
+            QLineEdit {
+                font-size: 16px;
+                font-weight: bold;
+                background-color: white;
+                color: black;
+                border: 1px solid #e0e0e0;
+                border-radius: 5px;
+                padding: 10px;
+            }
+        """)
+        self.username_input.setPlaceholderText("Введите имя пользователя")
+        self.settings_form.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.username_input)
+
+        # # Пароль
+        # self.password_label = QtWidgets.QLabel(self.content_widget)
+        # self.password_label.setStyleSheet("""
+        #     QLabel {
+        #         font-size: 16px;
+        #         font-weight: bold;
+        #         color: black;
+        #         padding: 10px;
+        #     }
+        # """)
+        # self.password_label.setText("Пароль")
+        # self.settings_form.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.password_label)
+        # self.password_input = QtWidgets.QLineEdit(self.content_widget)
+        # self.password_input.setStyleSheet("""
+        #     QLineEdit {
+        #         font-size: 16px;
+        #         font-weight: bold;
+        #         color: black;
+        #         border: 1px solid #e0e0e0;
+        #         border-radius: 5px;
+        #         padding: 10px;
+        #     }
+        # """)
+        # self.password_input.setPlaceholderText("Введите пароль")
+        # self.password_input.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        # self.settings_form.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.password_input)
+        #
+
+        self.settings_form.addItem(
+            QtWidgets.QSpacerItem(0, 30, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
+
+        # save button
+        self.save_button = QtWidgets.QPushButton(self.content_widget)
+        self.save_button.setText("Сохранить")
+        self.save_button.setStyleSheet("""
+            QPushButton {
+                background-color: white;
+                font-size: 16px;
+                font-weight: bold;
+                color: #1ca21e;
+                border-radius: 7px;
+                border: 1px solid #d1d1d1;
+                padding: 5px;
+                margin-bottom: 2px;
+                margin-top: 2px;
+            }
+            
+            QPushButton:hover {
+                background-color: #71ab72;
+                color: white;
+            }
+            
+            QPushButton:pressed {
+                background-color: white;
+                color: green;
+            }
+        """)
+        self.save_button.setGraphicsEffect(QGraphicsDropShadowEffect(
+            blurRadius=10,
+            color=QtGui.QColor(0, 0, 0, 25),
+            offset=QtCore.QPointF(0, 0)
+        ))
+        self.settings_form.setWidget(2, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.save_button)
+
+
 
         self.content_layout.addItem(
             QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         )
+
+        # change password button
+        self.change_password_button = QtWidgets.QPushButton(self.content_widget)
+        self.change_password_button.setText("Изменить пароль")
+        self.change_password_button.setStyleSheet("""
+            QPushButton {
+                background-color: white;
+                font-size: 16px;
+                font-weight: bold;
+                color: #ff0000;
+                border-radius: 7px;
+                border: 1px solid #d1d1d1;
+                padding: 5px;
+                margin-left: 25px;
+                margin-right: 25px;
+                margin-bottom: 2px;
+                margin-top: 2px;
+            }
+
+            QPushButton:hover {
+                background-color: #ff0000;
+                color: white;
+            }
+
+            QPushButton:pressed {
+                background-color: white;
+                color: #ff0000;
+            }
+        """)
+        self.change_password_button.setGraphicsEffect(QGraphicsDropShadowEffect(
+            blurRadius=10,
+            color=QtGui.QColor(0, 0, 0, 25),
+            offset=QtCore.QPointF(0, 0)
+        ))
+        self.content_layout.addWidget(self.change_password_button)
+
+        # change Cert button
+        self.change_cert_button = QtWidgets.QPushButton(self.content_widget)
+        self.change_cert_button.setText("Изменить сертификаты")
+        self.change_cert_button.setStyleSheet("""
+            QPushButton {
+                background-color: white;
+                font-size: 16px;
+                font-weight: bold;
+                color: #ff0000;
+                border-radius: 7px;
+                border: 1px solid #d1d1d1;
+                padding: 5px;
+                margin-left: 25px;
+                margin-right: 25px;
+                margin-bottom: 2px;
+                margin-top: 2px;
+            }
+            
+            QPushButton:hover {
+                background-color: #ff0000;
+                color: white;
+            }
+            
+            QPushButton:pressed {
+                background-color: white;
+                color: #ff0000;
+            }
+        """)
+        self.change_cert_button.setGraphicsEffect(QGraphicsDropShadowEffect(
+            blurRadius=10,
+            color=QtGui.QColor(0, 0, 0, 25),
+            offset=QtCore.QPointF(0, 0)
+        ))
+        self.content_layout.addWidget(self.change_cert_button)
+
         # logout button
         self.logout_button = QtWidgets.QPushButton(self.content_widget)
-        self.logout_button.setStyleSheet("""
-                    QPushButton {
-                        background-color: #f5f5f5;
-                        border: none;
-                        font-size: 18px;
-                        font-weight: bold;
-                        color: #ff0000;
-                        padding: 10px;
-                    }
-
-                    QPushButton:hover {
-                        background-color: #ff0000;
-                        color: #f5f5f5;
-                    }
-                """)
         self.logout_button.setText("Выйти")
+        self.logout_button.setStyleSheet("""
+            QPushButton {
+                background-color: white;
+                font-size: 16px;
+                font-weight: bold;
+                color: #ff0000;
+                border-radius: 7px;
+                border: 1px solid #d1d1d1;
+                padding: 5px;
+                margin-left: 25px;
+                margin-right: 25px;
+                margin-bottom: 2px;
+                margin-top: 2px;
+            }
+
+            QPushButton:hover {
+                background-color: #ff0000;
+                color: white;
+            }
+
+            QPushButton:pressed {
+                background-color: white;
+                color: #ff0000;
+            }
+        """)
         self.logout_button.setGraphicsEffect(QGraphicsDropShadowEffect(
             blurRadius=10,
             color=QtGui.QColor(0, 0, 0, 25),
             offset=QtCore.QPointF(0, 0)
         ))
         self.content_layout.addWidget(self.logout_button)
+        self.content_layout.addItem(
+            QtWidgets.QSpacerItem(0, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
 
         self.central_layout.addWidget(self.content_widget)
 

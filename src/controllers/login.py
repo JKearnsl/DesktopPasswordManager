@@ -16,7 +16,7 @@ class LoginController:
 
     def signin(self, login: str, password: str):
         if self.model.signin(login, password):
-            self.view.hide()
+            self.view.close()
             controller = MainController(MainModel(self.model.api_service))
 
     def signup(self, login: str, password: str, repeat_password: str):

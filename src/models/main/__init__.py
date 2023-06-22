@@ -1,3 +1,4 @@
+import os
 import pickle
 
 from src.api_service import APIServiceV1
@@ -29,6 +30,12 @@ class MainModel:
         with open("session", "wb") as file:
             # Issues: https://github.com/encode/httpx/issues/895#issuecomment-970689380
             pickle.dump(self._api_service.session.cookies.jar.__getattribute__("_cookies"), file)
+
+    def logout(self):
+        with open("session", "wb") as file:
+            file.truncate(0)
+        self._api_service.session.cookies.clear()
+        del self
 
     def add_observer(self, observer):
         self._mObservers.append(observer)
