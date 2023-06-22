@@ -28,7 +28,7 @@ class LoginView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         # События
         self.ui.switchAuthStateLabel.mousePressEvent = self.controller.switch_auth_state
         self.ui.signin_button.clicked.connect(self.signin_clicked)
-        self.ui.signup_button.clicked.connect(self.controller.signup)
+        self.ui.signup_button.clicked.connect(self.signup_clicked)
 
     def model_changed(self):
         if self.model.auth_state == AuthState.SIGNIN:
