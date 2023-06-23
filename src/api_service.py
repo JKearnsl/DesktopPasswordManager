@@ -79,14 +79,12 @@ class APIServiceV1:
         except JSONDecodeError:
             return dict(error=dict(content="Неизвестная ошибка", type=1))
 
-    def update_user(self, username: str = None, public_key: str = None, enc_private_key: str = None):
+    def update_user(self, username: str = None):
         try:
             result = self._session.put(
                 self._base_url + "user/update",
                 json=dict(
                     username=username,
-                    public_key=public_key,
-                    enc_private_key=enc_private_key
                 )
             ).json()
             return result
