@@ -15,7 +15,7 @@ class UiProfileMenu:
         self.content_widget.setObjectName("content_widget")
         self.content_widget.setStyleSheet("""
             QWidget {
-                background-color: #f5f5f5;
+                background-color: white;
                 border: none;
             }
         """)
@@ -45,7 +45,6 @@ class UiProfileMenu:
                 border-bottom: 1px solid #e0e0e0;
             }
         """)  # "border: none; border-bottom: 1px solid #e0e0e0;" - bug
-        self.title_label.setText("Профиль")
         self.title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.title_label.setGraphicsEffect(QGraphicsDropShadowEffect(
             blurRadius=10,
@@ -76,7 +75,6 @@ class UiProfileMenu:
                 padding: 10px;
             }
         """)
-        self.username_label.setText("Имя пользователя")
         self.settings_form.setWidget(0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.username_label)
         self.username_input = QtWidgets.QLineEdit(self.content_widget)
         self.username_input.setStyleSheet("""
@@ -90,7 +88,6 @@ class UiProfileMenu:
                 padding: 10px;
             }
         """)
-        self.username_input.setPlaceholderText("Введите имя пользователя")
         self.settings_form.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.username_input)
 
         # # Пароль
@@ -127,7 +124,6 @@ class UiProfileMenu:
 
         # save button
         self.save_button = QtWidgets.QPushButton(self.content_widget)
-        self.save_button.setText("Сохранить")
         self.save_button.setStyleSheet("""
             QPushButton {
                 background-color: white;
@@ -166,7 +162,6 @@ class UiProfileMenu:
 
         # change password button
         self.change_password_button = QtWidgets.QPushButton(self.content_widget)
-        self.change_password_button.setText("Изменить пароль")
         self.change_password_button.setStyleSheet("""
             QPushButton {
                 background-color: white;
@@ -200,9 +195,8 @@ class UiProfileMenu:
         self.content_layout.addWidget(self.change_password_button)
 
         # change Cert button
-        self.change_cert_button = QtWidgets.QPushButton(self.content_widget)
-        self.change_cert_button.setText("Изменить сертификаты")
-        self.change_cert_button.setStyleSheet("""
+        self.change_keys_button = QtWidgets.QPushButton(self.content_widget)
+        self.change_keys_button.setStyleSheet("""
             QPushButton {
                 background-color: white;
                 font-size: 16px;
@@ -227,16 +221,15 @@ class UiProfileMenu:
                 color: #ff0000;
             }
         """)
-        self.change_cert_button.setGraphicsEffect(QGraphicsDropShadowEffect(
+        self.change_keys_button.setGraphicsEffect(QGraphicsDropShadowEffect(
             blurRadius=10,
             color=QtGui.QColor(0, 0, 0, 25),
             offset=QtCore.QPointF(0, 0)
         ))
-        self.content_layout.addWidget(self.change_cert_button)
+        self.content_layout.addWidget(self.change_keys_button)
 
         # logout button
         self.logout_button = QtWidgets.QPushButton(self.content_widget)
-        self.logout_button.setText("Выйти")
         self.logout_button.setStyleSheet("""
             QPushButton {
                 background-color: white;
@@ -283,5 +276,12 @@ class UiProfileMenu:
 
     def retranslateUi(self, profile_menu):
         _translate = QtCore.QCoreApplication.translate
-        # MainWindow.setWindowTitle(_translate("MainWindow", "CompMath"))
+        self.change_keys_button.setText(_translate("profile_menu", "Изменить RSA ключи"))
+        self.change_password_button.setText(_translate("profile_menu", "Изменить пароль"))
+        self.logout_button.setText(_translate("profile_menu", "Выйти"))
+        self.save_button.setText(_translate("profile_menu", "Сохранить"))
+        self.title_label.setText(_translate("profile_menu", "Профиль"))
+        self.username_input.setPlaceholderText(_translate("profile_menu", "Введите имя пользователя"))
+        self.username_label.setText(_translate("profile_menu", "Имя пользователя"))
+
 
