@@ -165,6 +165,7 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         """)
         if box.exec() == QtWidgets.QMessageBox.StandardButton.Yes:
             self.controller.delete_resource(resource_id)
+            self.ui.search_line.clear()
 
     def edit_resource_clicked(self, resource_id: str, title: str):
         box = QtWidgets.QDialog(self)
@@ -204,3 +205,4 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         layout.addWidget(buttons)
         if box.exec() == QtWidgets.QDialog.DialogCode.Accepted:
             self.controller.update_resource(resource_id, title_line.text())
+            self.ui.search_line.clear()
