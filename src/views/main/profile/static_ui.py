@@ -106,6 +106,11 @@ class UiProfileMenu:
                 padding: 10px;
             }
         """)
+        self.username_input.setGraphicsEffect(QGraphicsDropShadowEffect(
+            blurRadius=10,
+            color=QtGui.QColor(0, 0, 0, 25),
+            offset=QtCore.QPointF(0, 0)
+        ))
         self.settings_form.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.username_input)
 
         self.settings_form.addItem(
