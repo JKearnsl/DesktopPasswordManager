@@ -30,9 +30,6 @@ class ResourceModel:
             self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
             return
 
-        if not response["message"]:
-            return
-
         for el in response["message"]:
             if el not in self._loaded_resources:
                 self._loaded_resources.append(el)
