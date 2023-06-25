@@ -271,10 +271,10 @@ class UiProfileMenu:
             QtWidgets.QSpacerItem(30, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         )
 
-        self.retranslateUi(profile_menu)
+        self.translate_ui(profile_menu)
         QtCore.QMetaObject.connectSlotsByName(profile_menu)
 
-    def retranslateUi(self, profile_menu):
+    def translate_ui(self, profile_menu):
         _translate = QtCore.QCoreApplication.translate
         self.change_keys_button.setText(_translate("profile_menu", "Изменить RSA ключи"))
         self.change_password_button.setText(_translate("profile_menu", "Изменить пароль"))
