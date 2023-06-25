@@ -2,8 +2,8 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QGraphicsDropShadowEffect
 
 
-class Ui_resourcesMenu(object):
-    def setupUi(self, resource_menu):
+class UiResourcesMenu(object):
+    def setup_ui(self, resource_menu):
         resource_menu.setObjectName("resource_menu")
         self.central_layout = QtWidgets.QHBoxLayout(resource_menu)
         self.central_layout.setContentsMargins(0, 0, 0, 0)
@@ -36,7 +36,6 @@ class Ui_resourcesMenu(object):
         )
         rp_size_policy.setHorizontalStretch(1)
         self.resource_panel.setSizePolicy(rp_size_policy)
-        self.resource_panel.setMinimumWidth(300)
 
         self.rp_layout = QtWidgets.QVBoxLayout(self.resource_panel)
         self.rp_layout.setObjectName("rp_layout")
@@ -266,10 +265,10 @@ class Ui_resourcesMenu(object):
         self.separator.addWidget(self.datum_panel)
         self.central_layout.addWidget(self.separator)
 
-        self.retranslateUi(resource_menu)
+        self.retranslate_ui(resource_menu)
         QtCore.QMetaObject.connectSlotsByName(resource_menu)
 
-    def retranslateUi(self, resource_menu):
+    def retranslate_ui(self, resource_menu):
         _translate = QtCore.QCoreApplication.translate
         # MainWindow.setWindowTitle(_translate("MainWindow", "CompMath"))
 

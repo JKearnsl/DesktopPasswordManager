@@ -14,6 +14,10 @@ class ProfileModel:
         # список наблюдателей
         self._mObservers = []
 
+    @property
+    def api_service(self):
+        return self._api_service
+
     def logout(self):
         self.scope['main_model'].logout()
 

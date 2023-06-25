@@ -6,7 +6,7 @@ from PyQt6.QtCore import Qt
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
 from src.models.main.resource import ResourceModel
-from src.views.main.resources.static_ui import Ui_resourcesMenu, ResourceItemWidget
+from src.views.main.resources.static_ui import UiResourcesMenu, ResourceItemWidget
 
 ViewModel = TypeVar('ViewModel', bound=QtWidgets.QWidget)
 
@@ -18,8 +18,8 @@ class ResourcesView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.controller = controller
         self.model = model
 
-        self.ui = Ui_resourcesMenu()
-        self.ui.setupUi(self)
+        self.ui = UiResourcesMenu()
+        self.ui.setup_ui(self)
 
         parent.ui.page_widget.addWidget(self)
         parent.ui.page_widget.setCurrentWidget(self)

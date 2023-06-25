@@ -186,6 +186,11 @@ class UiProfileMenu:
                 background-color: white;
                 color: #ff0000;
             }
+            
+            QPushButton:disabled {
+                background-color: white;
+                color: #d1d1d1;
+            }
         """)
         self.change_password_button.setGraphicsEffect(QGraphicsDropShadowEffect(
             blurRadius=10,
@@ -219,6 +224,11 @@ class UiProfileMenu:
             QPushButton:pressed {
                 background-color: white;
                 color: #ff0000;
+            }
+            
+            QPushButton:disabled {
+                background-color: white;
+                color: #d1d1d1;
             }
         """)
         self.change_keys_button.setGraphicsEffect(QGraphicsDropShadowEffect(

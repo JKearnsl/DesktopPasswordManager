@@ -21,6 +21,7 @@ class DataView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.ui.setup_ui(self)
 
         parent.ui.dp_layout.addWidget(self.ui.datum)
+        parent.ui.datum_panel.update()
 
         # Состояния отображений
         self.current_resource = parent.current_resource

@@ -24,12 +24,16 @@ class ProfileView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         parent.ui.page_widget.addWidget(self)
         parent.ui.page_widget.setCurrentWidget(self)
 
+        self.ui.change_password_button.setEnabled(False)
+        self.ui.change_keys_button.setEnabled(False)
+
         # Регистрация представлений
         self.model.add_observer(self)
 
         # События
         self.ui.logout_button.clicked.connect(self.logout_clicked)
         self.ui.save_button.clicked.connect(self.save_clicked)
+        self.ui.change_password_button.clicked.connect(self.change_password_clicked)
 
     def model_changed(self):
         current_user_name = self.model.current_user().get("username")
@@ -117,7 +121,7 @@ class ProfileView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
                 self.controller.change_username(new_user_name, user_password)
 
     def change_password_clicked(self):
-        pass
+        self.controller.show_change_password()
 
     def change_keys_clicked(self):
         pass
