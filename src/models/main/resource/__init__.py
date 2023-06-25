@@ -42,6 +42,24 @@ class ResourceModel:
             self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
             return
 
+    def delete_resource(self, resource_id: str):
+        response = self._api_service.resource_delete(resource_id)
+        if response.get("error"):
+            self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
+            return
+        self._loaded_resources.clear()
+        self.load_resources()
+        self.notify_observers()
+
+    def update_resource(self, resource_id: str, title: str):
+        response = self._api_service.resource_update(resource_id, title)
+        if response.get("error"):
+            self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
+            return
+        self._loaded_resources.clear()
+        self.load_resources()
+        self.notify_observers()
+
     def add_observer(self, observer):
         self._mObservers.append(observer)
 

@@ -265,10 +265,10 @@ class UiResourcesMenu(object):
         self.separator.addWidget(self.datum_panel)
         self.central_layout.addWidget(self.separator)
 
-        self.retranslate_ui(resource_menu)
+        self.translate_ui(resource_menu)
         QtCore.QMetaObject.connectSlotsByName(resource_menu)
 
-    def retranslate_ui(self, resource_menu):
+    def translate_ui(self, resource_menu):
         _translate = QtCore.QCoreApplication.translate
         # MainWindow.setWindowTitle(_translate("MainWindow", "CompMath"))
 
@@ -276,10 +276,10 @@ class UiResourcesMenu(object):
 class ResourceItemWidget(QtWidgets.QWidget):
     clicked = QtCore.pyqtSignal(tuple)
 
-    def __init__(self, id: str, title: str, *args, **kwargs):
+    def __init__(self, _id: str, title: str, *args, **kwargs):
         super().__init__()
 
-        self.id = id
+        self.id = _id
         self.title = QtWidgets.QLabel(title)
 
         layout = QtWidgets.QHBoxLayout()

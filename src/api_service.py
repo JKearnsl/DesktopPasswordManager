@@ -218,3 +218,31 @@ class APIServiceV1:
             return dict(error=dict(content="Ошибка соединения", type=1))
         except JSONDecodeError:
             return dict(error=dict(content="Неизвестная ошибка", type=1))
+
+    def resource_delete(self, resource_id: str):
+        try:
+            result = self._session.delete(self._base_url + "resource/delete", params=dict(resource_id=resource_id))
+            if result.status_code == 204:
+                return dict(message="ok")
+            else:
+                return result.json()
+        except (httpx.ConnectError, httpx.TimeoutException):
+            return dict(error=dict(content="Ошибка соединения", type=1))
+        except JSONDecodeError:
+            return dict(error=dict(content="Неизвестная ошибка", type=1))
+
+    def resource_update(self, resource_id: str, title: str):
+        try:
+            result = self._session.put(
+                self._base_url + "resource/update",
+                params=dict(resource_id=resource_id),
+                json=dict(title=title)
+            )
+            if result.status_code == 204:
+                return dict(message="ok")
+            else:
+                return result.json()
+        except (httpx.ConnectError, httpx.TimeoutException):
+            return dict(error=dict(content="Ошибка соединения", type=1))
+        except JSONDecodeError:
+            return dict(error=dict(content="Неизвестная ошибка", type=1))

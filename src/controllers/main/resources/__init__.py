@@ -23,3 +23,9 @@ class ResourcesController:
 
     def add_resource(self, title: str):
         self.model.add_resource(title)
+
+    def delete_resource(self, resource_id: str):
+        self.model.delete_resource(resource_id)
+
+    def update_resource(self, resource_id: str, title: str):
+        self.model.update_resource(resource_id, title)
