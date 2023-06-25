@@ -19,8 +19,8 @@ class ProfileController:
         self.main_model.close()
         controller = login.LoginController(LoginModel())
 
-    def change_username(self, new_username: str):
-        self.model.change_username(new_username)
+    def change_username(self, new_username: str, password: str):
+        self.model.change_username(new_username, password)
 
     def show_change_password(self):
         pass

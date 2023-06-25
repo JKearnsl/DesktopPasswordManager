@@ -36,6 +36,7 @@ class ProfileView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.ui.username_input.setText(current_user_name)
 
     def error_handler(self, error):
+        # Todo: error label
         pass
 
     def model_loaded(self):
@@ -113,11 +114,7 @@ class ProfileView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
             if box.exec() == QtWidgets.QDialog.DialogCode.Accepted:
                 user_password = password_input.text().strip()
-
-                print("accepted")
-
-            # self.controller.change_username(new_user_name)
-            # self.ui.username_input.setText(new_user_name)
+                self.controller.change_username(new_user_name, user_password)
 
     def change_password_clicked(self):
         pass
