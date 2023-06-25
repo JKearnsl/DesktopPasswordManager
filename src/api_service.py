@@ -79,12 +79,58 @@ class APIServiceV1:
         except JSONDecodeError:
             return dict(error=dict(content="Неизвестная ошибка", type=1))
 
-    def update_user(self, username: str = None):
+    def update_username(self, username: str, new_hashed_password: str, old_hashed_password: str):
+        """
+        Обновление пользовательского имени происходит с требованием передачи
+        - Старого хеша - хеша, на основе пароля + соли основанной на старом имени пользователя.
+        - Нового хеша - хеша, на основе пароля + соли основанной на новом имени пользователя.
+
+        Причем сертификаты меня не требуется, так как шифруются с помощью пароля по AES
+        """
+
         try:
             result = self._session.put(
-                self._base_url + "user/update",
+                self._base_url + "user/update/username",
                 json=dict(
                     username=username,
+                    new_hashed_password=new_hashed_password,
+                    old_hashed_password=old_hashed_password,
+                )
+            ).json()
+            return result
+        except (httpx.ConnectError, httpx.TimeoutException):
+            return dict(error=dict(content="Ошибка соединения", type=1))
+        except JSONDecodeError:
+            return dict(error=dict(content="Неизвестная ошибка", type=1))
+
+    def update_password(self, new_hashed_password: str, old_hashed_password: str, new_enc_private_key: str):
+        try:
+            result = self._session.put(
+                self._base_url + "user/update/password",
+                params=dict(
+                    new_hashed_password=new_hashed_password,
+                    old_hashed_password=old_hashed_password,
+                    new_enc_private_key=new_enc_private_key,
+                )
+            ).json()
+            return result
+        except (httpx.ConnectError, httpx.TimeoutException):
+            return dict(error=dict(content="Ошибка соединения", type=1))
+        except JSONDecodeError:
+            return dict(error=dict(content="Неизвестная ошибка", type=1))
+
+    def update_keys(self, public_key: str, enc_private_key: str, hashed_password: str):
+        """
+        Обновление пользовательских ключей шифрования должно происходить в связке с перешифровкой всех данных
+        """
+
+        try:
+            result = self._session.put(
+                self._base_url + "user/update/keys",
+                json=dict(
+                    public_key=public_key,
+                    enc_private_key=enc_private_key,
+                    hashed_password=hashed_password,
                 )
             ).json()
             return result
