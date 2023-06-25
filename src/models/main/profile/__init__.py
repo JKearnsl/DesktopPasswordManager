@@ -50,6 +50,7 @@ class ProfileModel:
         )
         if response.get('error'):
             self.raise_error(ErrorModel(response['error']['content'], response['error']['type']))
+            return
         self.notify_observers()
 
     def change_password(self, new_password: str, old_password: str):

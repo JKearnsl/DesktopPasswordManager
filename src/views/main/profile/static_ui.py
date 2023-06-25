@@ -56,6 +56,24 @@ class UiProfileMenu:
             QtWidgets.QSpacerItem(0, 30, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         )
 
+        # Error label
+        self.error_label = QtWidgets.QLabel(self.content_widget)
+        self.error_label.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                font-weight: bold;
+                color: red;
+            }
+        """)
+        self.error_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.error_label.setWordWrap(True)
+        self.error_label.setText('')
+        self.error_label.setHidden(True)
+        self.content_layout.addWidget(self.error_label)
+        self.content_layout.addItem(
+            QtWidgets.QSpacerItem(0, 30, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
+
         # Settings form
         self.settings_form = QtWidgets.QFormLayout()
         self.settings_form.setContentsMargins(20, 0, 20, 0)
@@ -89,34 +107,6 @@ class UiProfileMenu:
             }
         """)
         self.settings_form.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.username_input)
-
-        # # Пароль
-        # self.password_label = QtWidgets.QLabel(self.content_widget)
-        # self.password_label.setStyleSheet("""
-        #     QLabel {
-        #         font-size: 16px;
-        #         font-weight: bold;
-        #         color: black;
-        #         padding: 10px;
-        #     }
-        # """)
-        # self.password_label.setText("Пароль")
-        # self.settings_form.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.password_label)
-        # self.password_input = QtWidgets.QLineEdit(self.content_widget)
-        # self.password_input.setStyleSheet("""
-        #     QLineEdit {
-        #         font-size: 16px;
-        #         font-weight: bold;
-        #         color: black;
-        #         border: 1px solid #e0e0e0;
-        #         border-radius: 5px;
-        #         padding: 10px;
-        #     }
-        # """)
-        # self.password_input.setPlaceholderText("Введите пароль")
-        # self.password_input.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
-        # self.settings_form.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.password_input)
-        #
 
         self.settings_form.addItem(
             QtWidgets.QSpacerItem(0, 30, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)

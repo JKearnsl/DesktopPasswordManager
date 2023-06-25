@@ -36,12 +36,15 @@ class ProfileView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.ui.change_password_button.clicked.connect(self.change_password_clicked)
 
     def model_changed(self):
+        if self.ui.error_label.isVisible():
+            self.ui.error_label.hide()
         current_user_name = self.model.current_user().get("username")
         self.ui.username_input.setText(current_user_name)
 
     def error_handler(self, error):
-        # Todo: error label
-        pass
+        if error.type.MESSAGE:
+            self.ui.error_label.show()
+            self.ui.error_label.setText(error.content)
 
     def model_loaded(self):
         self.model_changed()
