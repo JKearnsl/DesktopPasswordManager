@@ -1,6 +1,6 @@
 import sys
 
-from PyQt6 import QtCore
+from PyQt6 import QtCore, QtGui
 from PyQt6.QtWidgets import QApplication, QStyleFactory
 
 from src.models.login import LoginModel
