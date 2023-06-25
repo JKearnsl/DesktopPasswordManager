@@ -67,7 +67,7 @@ class UiResourcesMenu(object):
                 border: 1px solid #d1d1d1;
                 border-radius: 5px;
                 padding: 5px;
-                margin: 15px;
+                margin: 12px;
                 font-size: 16px;
             }
         """)
