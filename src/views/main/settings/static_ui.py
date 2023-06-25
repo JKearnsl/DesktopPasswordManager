@@ -15,7 +15,7 @@ class UiSettingsMenu(object):
         self.content_widget.setObjectName("content_widget")
         self.content_widget.setStyleSheet("""
             QWidget {
-                background-color: #f5f5f5;
+                background-color: white;
                 border: none;
             }
         """)
@@ -53,6 +53,10 @@ class UiSettingsMenu(object):
         ))
         self.content_layout.addWidget(self.title_label)
 
+        self.content_layout.addItem(
+            QtWidgets.QSpacerItem(0, 30, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+        )
+
         # Settings form
         self.settings_form = QtWidgets.QFormLayout()
         self.settings_form.setContentsMargins(20, 0, 20, 0)
@@ -60,7 +64,46 @@ class UiSettingsMenu(object):
         self.settings_form.setHorizontalSpacing(10)
         self.content_layout.addLayout(self.settings_form)
 
-        # ...
+        # Scale factor
+        self.scaling_label = QtWidgets.QLabel(self.content_widget)
+        self.scaling_label.setStyleSheet("""
+            QLabel {
+                font-size: 16px;
+                font-weight: bold;
+                color: black;
+            }
+        """)
+
+        self.scaling_slider = QtWidgets.QComboBox(self.content_widget)
+        self.scaling_slider.setStyleSheet("""
+            QComboBox {
+                font-size: 18px;
+                font-weight: bold;
+                color: black;
+                border: 1px solid #e0e0e0;
+                border-radius: 5px;
+                padding: 5px;
+            }
+            
+            QComboBox::drop-down {
+                border: 1px solid #e0e0e0;
+            }
+            
+            QComboBox:disabled {
+                background-color: #d1d1d1;
+                color: #a1a1a1;
+            }    
+        """)
+        self.scaling_slider.addItems(['Auto', '100%', '125%', '150%', '175%', '200%'])
+        self.scaling_slider.setCurrentIndex(0)
+        self.scaling_slider.setDisabled(True)
+        self.scaling_slider.setGraphicsEffect(QGraphicsDropShadowEffect(
+            blurRadius=10,
+            color=QtGui.QColor(0, 0, 0, 25),
+            offset=QtCore.QPointF(0, 0)
+        ))
+
+        self.settings_form.addRow(self.scaling_label, self.scaling_slider)
 
         self.content_layout.addItem(
             QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
@@ -77,3 +120,4 @@ class UiSettingsMenu(object):
     def translate_ui(self, settings_menu):
         _translate = QtCore.QCoreApplication.translate
         self.title_label.setText(_translate("SettingsTitle", "Настройки"))
+        self.scaling_label.setText(_translate("SettingsScalingLabel", "Масштабирование интерфейса:"))
