@@ -47,6 +47,14 @@ class DataModel:
             self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
             return
 
+    def delete_datum(self, datum_id: str):
+        response = self._api_service.delete_datum(datum_id)
+        if response.get("error"):
+            self.raise_error(ErrorModel(response["error"]["content"], response["error"]["type"]))
+            return
+        self._data.clear()
+        self.load_data_list()
+
     def add_observer(self, observer):
         self._mObservers.append(observer)
 

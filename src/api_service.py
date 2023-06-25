@@ -246,3 +246,34 @@ class APIServiceV1:
             return dict(error=dict(content="Ошибка соединения", type=1))
         except JSONDecodeError:
             return dict(error=dict(content="Неизвестная ошибка", type=1))
+
+    def delete_datum(self, datum_id: str):
+        try:
+            result = self._session.delete(self._base_url + "password/delete", params=dict(datum_id=datum_id))
+            if result.status_code == 204:
+                return dict(message="ok")
+            else:
+                return result.json()
+        except (httpx.ConnectError, httpx.TimeoutException):
+            return dict(error=dict(content="Ошибка соединения", type=1))
+        except JSONDecodeError:
+            return dict(error=dict(content="Неизвестная ошибка", type=1))
+
+    def update_datum(self, datum_id: str, username: str, enc_password: str):
+        try:
+            result = self._session.put(
+                self._base_url + "password/update",
+                params=dict(datum_id=datum_id),
+                json=dict(
+                    username=username,
+                    enc_password=enc_password
+                )
+            )
+            if result.status_code == 204:
+                return dict(message="ok")
+            else:
+                return result.json()
+        except (httpx.ConnectError, httpx.TimeoutException):
+            return dict(error=dict(content="Ошибка соединения", type=1))
+        except JSONDecodeError:
+            return dict(error=dict(content="Неизвестная ошибка", type=1))

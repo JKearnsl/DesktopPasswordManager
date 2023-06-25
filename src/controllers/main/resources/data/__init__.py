@@ -21,3 +21,6 @@ class DataController:
 
     def show_datum(self, scope: dict):
         controller = DatumController(DatumModel(api=self.model.api_service, scope=scope), self.view)
+
+    def delete_datum(self, datum_id: str):
+        self.model.delete_datum(datum_id)

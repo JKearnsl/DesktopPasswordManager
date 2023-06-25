@@ -1,7 +1,7 @@
 from typing import TypeVar
 
 from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QObject
 from src.models.main.resource.data import DataModel
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
@@ -30,6 +30,7 @@ class DataView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.model.add_observer(self)
 
         # События
+        self.ui.datum_list.installEventFilter(self)
         self.ui.add_datum_button.clicked.connect(self.show_add_datum_modal)
         self.ui.ad_button.clicked.connect(self.add_datum_clicked)
 
@@ -72,3 +73,56 @@ class DataView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         scope["datum_username"] = widget.username
         scope["datum_enc_password"] = widget.enc_password
         self.controller.show_datum(scope)
+
+    def eventFilter(self, source: QObject, event) -> bool:
+        if event.type() == QtCore.QEvent.Type.ContextMenu and source is self.ui.datum_list:
+            menu = QtWidgets.QMenu(self)
+            menu.addAction("Удалить")
+
+            menu.setStyleSheet("""
+                QMenu {
+                    background-color: #fff;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+                QMenu::item {
+                    padding: 5px 20px;
+                }
+                QMenu::item:selected {
+                    background-color: #ccc;
+                } 
+            """)
+
+            if action := menu.exec(event.globalPos()):
+                item = source.itemAt(event.pos())
+                if not item:
+                    return True
+
+                item_widget = self.ui.datum_list.itemWidget(item)
+                if action.text() == "Удалить":
+                    self.delete_datum_clicked(item_widget.id)
+
+            return True
+        return super().eventFilter(source, event)
+
+    def delete_datum_clicked(self, datum_id):
+        box = QtWidgets.QMessageBox(self)
+        box.setWindowTitle("Удаление данных")
+        box.setText(f"Вы действительно хотите удалить {datum_id}?")
+        box.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
+        box.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+        box.setStyleSheet("""
+            QMessageBox {
+                background-color: #fff;
+                border: 1px solid #ccc;
+            }
+            QMessageBox QPushButton {
+                padding: 5px 20px;
+                background-color: #fff;
+            }
+            QMessageBox QPushButton:hover {
+                background-color: #ccc;
+            }
+        """)
+        if box.exec() == QtWidgets.QMessageBox.StandardButton.Yes:
+            self.controller.delete_datum(datum_id)
