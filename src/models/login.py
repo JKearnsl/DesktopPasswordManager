@@ -7,6 +7,7 @@ import httpx
 from src.api_service import APIServiceV1
 from src.models.enum.auth_state import AuthState
 from src.models.error import ErrorModel, ErrorType
+from src.utils import validators
 from src.utils.encfunctions import generate_keys, encrypt_aes
 
 
@@ -75,6 +76,10 @@ class LoginModel:
     def signup(self, username: str, password: str, repeat_password: str) -> bool:
         if password != repeat_password:
             self.raise_error(ErrorModel("Пароли не совпадают", ErrorType.MESSAGE))
+            return False
+
+        if not validators.is_ascii(password):
+            self.raise_error(ErrorModel("Использованы некорректные символы", ErrorType.MESSAGE))
             return False
 
         if len(password) < 8 or len(password) > 32:
