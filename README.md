@@ -30,7 +30,7 @@
 ## Установка [Разработчик]
 
 1. Скачайте и установите [Python 3.11](https://www.python.org/downloads/).
-2. Клонируйте репозиторий
+2. Клонируйте репозиторий и перейдите в корневую директорию проекта
 3. Создайте виртуальное окружение
 ```bash
 python -m venv venv
@@ -40,7 +40,12 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-5. Запустите DesktopPasswordManager
+5. Добавьте директорию проекта в `PYTHONPATH`, например:
+```bash
+export PYTHONPATH=/home/jkearnsl/PycharmProjects/DesktopPasswordManager
+```
+Где `/home/jkearnsl/PycharmProjects/DesktopPasswordManager` - путь до корневой директории проекта
+6. Запустите DesktopPasswordManager
 ```bash
 python src/main.pyw
 ```
