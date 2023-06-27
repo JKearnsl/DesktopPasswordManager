@@ -1,6 +1,7 @@
 from PyQt6 import QtWidgets
 
 from src.models.enum.auth_state import AuthState
+from src.models.error import ErrorType
 from src.utils.observer import DObserver
 from src.utils.ts_meta import TSMeta
 from src.views.login.static_ui import Ui_LoginWindow
@@ -10,7 +11,7 @@ from src.models.login import LoginModel
 class LoginView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
 
     def __init__(self, controller, model: LoginModel, parent=None):
-        super(QtWidgets.QWidget, self).__init__(parent)
+        super().__init__(parent)
         self.controller = controller
         self.model = model
 
@@ -40,9 +41,15 @@ class LoginView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.ui.authResponseLabel.hide()
 
     def error_handler(self, error):
-        if error.type.MESSAGE:
-            self.ui.authResponseLabel.show()
+        self.ui.authResponseLabel.show()
+        if error.type is ErrorType.MESSAGE:
             self.ui.authResponseLabel.setText(error.content)
+        else:
+            self.ui.authResponseLabel.setText('\n'.join(
+                [
+                    f"{el.field}: {el.message}" for el in error.content
+                ]
+            ))
 
     def signin_clicked(self):
         login = self.ui.login_line_edit.text()
