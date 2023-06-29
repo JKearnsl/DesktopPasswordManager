@@ -24,3 +24,6 @@ class DataController:
 
     def delete_datum(self, datum_id: str):
         self.model.delete_datum(datum_id)
+
+    def get_hard_password(self):
+        return self.model.gen_hard_password()

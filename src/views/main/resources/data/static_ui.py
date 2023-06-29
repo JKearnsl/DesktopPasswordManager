@@ -163,10 +163,70 @@ class UiDatum:
         layout.addRow(QtWidgets.QLabel("Username:"), self.ad_username_line)
 
         # Password
+        passwd_layout = QtWidgets.QHBoxLayout()
+        passwd_layout.setContentsMargins(0, 0, 0, 0)
+        passwd_layout.setSpacing(0)
         self.ad_password_line = QtWidgets.QLineEdit()
         self.ad_password_line.setMaxLength(64)
         self.ad_password_line.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
-        layout.addRow(QtWidgets.QLabel("Password:"), self.ad_password_line)
+        passwd_layout.addWidget(self.ad_password_line)
+
+        # r_panel
+        r_panel = QtWidgets.QWidget(self.ad_modal)
+        r_panel.setGraphicsEffect(QGraphicsDropShadowEffect(
+            blurRadius=10,
+            color=QtGui.QColor(0, 0, 0, 25),
+            offset=QtCore.QPointF(0, 0)
+        ))
+        r_panel_layout = QtWidgets.QHBoxLayout(r_panel)
+        r_panel_layout.setContentsMargins(4, 4, 4, 4)
+        r_panel_layout.setSpacing(0)
+
+        self.show_password_button = QtWidgets.QCheckBox()
+        self.show_password_button.setIconSize(QtCore.QSize(30, 30))
+        self.show_password_button.setFixedSize(QtCore.QSize(38, 32))
+        self.show_password_button.setChecked(False)
+        self.show_password_button.setIcon(QtGui.QIcon("assets:/datum_icon/hide_pass.png"))
+        self.show_password_button.setStyleSheet("""
+            QCheckBox {
+                border: none;
+            }
+        
+            QCheckBox::indicator {
+                background-color:transparent;
+                selection-background-color:transparent;
+                color:transparent;
+                selection-color:transparent;
+                width: 0px;
+                height: 0px;
+                padding: 0px;
+                margin: 0px
+            }
+        """)
+        self.show_password_button.clicked.connect(
+            lambda is_checked:
+                self.show_password_button.setIcon(QtGui.QIcon("assets:/datum_icon/show_pass.png")) if is_checked else
+                self.show_password_button.setIcon(QtGui.QIcon("assets:/datum_icon/hide_pass.png"))
+        )
+        r_panel_layout.addWidget(self.show_password_button)
+
+        self.gen_password_button = QtWidgets.QPushButton()
+        self.gen_password_button.setIconSize(QtCore.QSize(30, 30))
+        self.gen_password_button.setFixedSize(QtCore.QSize(32, 32))
+        self.gen_password_button.setIcon(QtGui.QIcon("assets:/datum_icon/gen_pass.png"))
+        self.gen_password_button.setStyleSheet("""
+            QPushButton {
+                border-radius: 15px;
+                border: 1px;
+                margin-left: 2px;
+            }
+        
+        """)
+        r_panel_layout.addWidget(self.gen_password_button)
+
+
+        passwd_layout.addWidget(r_panel)
+        layout.addRow(QtWidgets.QLabel("Password:"), passwd_layout)
 
         # Кнопка
         self.ad_button = QtWidgets.QPushButton("Добавить")

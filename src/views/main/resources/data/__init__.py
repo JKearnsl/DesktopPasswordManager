@@ -33,6 +33,8 @@ class DataView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         self.ui.datum_list.installEventFilter(self)
         self.ui.add_datum_button.clicked.connect(self.show_add_datum_modal)
         self.ui.ad_button.clicked.connect(self.add_datum_clicked)
+        self.ui.show_password_button.clicked.connect(self.show_password_clicked)
+        self.ui.gen_password_button.clicked.connect(self.gen_password_clicked)
 
     def model_changed(self):
         self.ui.datum_header_label.setText(self.current_resource.title.text())
@@ -126,3 +128,13 @@ class DataView(QtWidgets.QWidget, DObserver, metaclass=TSMeta):
         """)
         if box.exec() == QtWidgets.QMessageBox.StandardButton.Yes:
             self.controller.delete_datum(datum_id)
+
+    def gen_password_clicked(self):
+        password = self.controller.get_hard_password()
+        self.ui.ad_password_line.setText(password)
+
+    def show_password_clicked(self, is_hide: bool):
+        if is_hide:
+            self.ui.ad_password_line.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
+        else:
+            self.ui.ad_password_line.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)

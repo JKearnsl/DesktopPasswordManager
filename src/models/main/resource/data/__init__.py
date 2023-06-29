@@ -1,6 +1,9 @@
+import random
+import string
+
 from src.api_service import APIServiceV1
 from src.models.error import ErrorModel
-from src.utils.encfunctions import decrypt_rsa, decrypt_aes, encrypt_rsa
+from src.utils.encfunctions import encrypt_rsa
 
 
 class DataModel:
@@ -54,6 +57,11 @@ class DataModel:
             return
         self._data.clear()
         self.load_data_list()
+
+    def gen_hard_password(self, length: int = 16) -> str:
+        characters = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(random.choice(characters) for _ in range(length))
+        return password
 
     def add_observer(self, observer):
         self._mObservers.append(observer)
